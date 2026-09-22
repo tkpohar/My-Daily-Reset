@@ -373,7 +373,27 @@ function App() {
     localStorage.setItem('my-daily-reset-history', JSON.stringify(history));
   }, [history]);
 
+  useEffect(() => {
+    if (favoriteRecipeId) {
+      localStorage.setItem('my-daily-reset-favorite-recipe', favoriteRecipeId);
+    }
+  }, [favoriteRecipeId]);
+
   const completedHabits = useMemo(() => habitState.filter(Boolean).length, [habitState]);
+  const filteredRecipes = useMemo(() => {
+    const query = recipeSearch.trim().toLowerCase();
+
+    if (!query) {
+      return recipeLibrary;
+    }
+
+    return recipeLibrary.filter((recipe) =>
+      recipe.title.toLowerCase().includes(query)
+      || recipe.category.toLowerCase().includes(query)
+      || recipe.ingredients.some((ingredient) => ingredient.toLowerCase().includes(query))
+    );
+  }, [recipeSearch]);
+
   const activeRecipe = filteredRecipes.some((recipe) => recipe.id === selectedRecipe.id)
     ? selectedRecipe
     : (filteredRecipes[0] || recipeLibrary[0]);
