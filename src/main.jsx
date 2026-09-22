@@ -117,6 +117,10 @@ function App() {
   const [motivation, setMotivation] = useState(() => getDailyMotivation());
   const [diceValue, setDiceValue] = useState(1);
   const [challenge, setChallenge] = useState(() => challengePool[0]);
+  const [history, setHistory] = useState(() => {
+    const saved = JSON.parse(localStorage.getItem('my-daily-reset-history') || '[]');
+    return Array.isArray(saved) ? saved : [];
+  });
 
   useEffect(() => {
     const saved = localStorage.getItem('my-daily-reset-state');
@@ -136,10 +140,27 @@ function App() {
     localStorage.setItem('my-daily-reset-state', JSON.stringify(state));
   }, [energy, mood, focus, habitState, reflection, plan]);
 
+  useEffect(() => {
+    localStorage.setItem('my-daily-reset-history', JSON.stringify(history));
+  }, [history]);
+
   const completedHabits = useMemo(() => habitState.filter(Boolean).length, [habitState]);
 
   const handleGenerate = () => {
-    setPlan(generatePlan(energy, mood, focus));
+    const generatedPlan = generatePlan(energy, mood, focus);
+    setPlan(generatedPlan);
+
+    const entry = {
+      date: new Date().toISOString(),
+      energy,
+      mood,
+      focus,
+      reflection,
+      habits: habitState,
+      plan: generatedPlan,
+    };
+
+    setHistory((prev) => [entry, ...prev].slice(0, 12));
   };
 
   const handleDiceRoll = () => {
@@ -224,7 +245,7 @@ function App() {
 
         <main className="main-panel">
           <div className="tabs">
-            {['today', 'habits', 'reflection', 'wins', 'games'].map((name) => (
+            {['today', 'habits', 'reflection', 'wins', 'games', 'history'].map((name) => (
               <button
                 key={name}
                 className={tab === name ? 'tab active' : 'tab'}
@@ -340,6 +361,31 @@ function App() {
                 <p className="challenge-text">{challenge}</p>
                 <button className="secondary-btn" onClick={handleChallengeDraw}>New challenge</button>
               </div>
+            </div>
+          )}
+
+          {tab === 'history' && (
+            <div className="content-card">
+              <h3>Past history</h3>
+              {history.length === 0 ? (
+                <p className="placeholder-text">Your saved daily check-ins will appear here.</p>
+              ) : (
+                <div className="history-list">
+                  {history.map((entry) => (
+                    <div key={entry.date} className="history-item">
+                      <div className="history-date">
+                        {new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </div>
+                      <div className="history-meta">
+                        <span>{entry.energy}</span>
+                        <span>{entry.mood}</span>
+                        <span>{entry.focus}</span>
+                      </div>
+                      <p>{entry.reflection || 'No reflection recorded.'}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </main>
