@@ -193,6 +193,27 @@ button, select, textarea {
   margin-bottom: 16px;
 }
 
+.profile-summary {
+  margin: 0 0 1rem;
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(120, 131, 170, 0.12);
+  border-radius: 14px;
+  padding: 0.8rem 0.9rem;
+}
+
+.profile-summary span,
+.profile-summary small {
+  display: block;
+  color: #596881;
+}
+
+.profile-summary strong {
+  display: block;
+  margin: 0.25rem 0;
+  font-size: 1.1rem;
+  color: #1c2435;
+}
+
 .side-panel label {
   display: block;
   margin-bottom: 16px;

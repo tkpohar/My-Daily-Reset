@@ -185,8 +185,13 @@ function generatePlan(energy, mood, focus, profile = {}) {
 
   if (interest === 'Cooking') {
     const recipeText = activities ? activities.trim() : 'one simple recipe';
-    adjusted.mustDo = [`Plan ${recipeText} for today or prep ingredients.`, 'Clean one kitchen surface before or after eating.', 'Make one easy, nourishing meal.'];
+    adjusted.mustDo = [
+      `Plan ${recipeText} for today or prep ingredients.`,
+      'Clean one kitchen surface before or after eating.',
+      'Make one easy, nourishing meal.',
+    ];
     adjusted.easy = ['Wash one pan or prep one ingredient.', 'Set out a healthy snack or drink.', 'Do a quick kitchen reset.'];
+    adjusted.fun = ['Cook something simple that feels comforting.', 'Use your favorite ingredients for a quick win.', 'Enjoy one meal without rushing or multitasking.'];
   }
 
   if (interest === 'Outdoors') {
@@ -271,6 +276,11 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const nextPlan = generatePlan(energy, mood, focus, { interest: personalInterest, activities });
+    setPlan(nextPlan);
+  }, [energy, mood, focus, personalInterest, activities]);
+
+  useEffect(() => {
     const state = { energy, mood, focus, personalInterest, activities, habitState, reflection, plan };
     localStorage.setItem('my-daily-reset-state', JSON.stringify(state));
   }, [energy, mood, focus, personalInterest, activities, habitState, reflection, plan]);
@@ -297,8 +307,7 @@ function App() {
       activities,
     };
 
-    const updatedHistory = [entry, ...history].slice(0, 12);
-    setHistory(updatedHistory);
+    setHistory((prev) => [entry, ...prev].slice(0, 12));
     saveRemoteHistory(entry);
   };
 
@@ -397,6 +406,12 @@ function App() {
               placeholder="e.g. golf, fishing, cooking, yoga"
             />
           </label>
+
+          <div className="profile-summary">
+            <span>Profile focus</span>
+            <strong>{personalInterest}</strong>
+            {activities && <small>{activities}</small>}
+          </div>
 
           <button className="primary-btn" onClick={handleGenerate}>Generate my reset plan</button>
         </aside>
