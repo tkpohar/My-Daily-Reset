@@ -29,6 +29,152 @@ const energyLevels = ['Low', 'Medium', 'High'];
 const focusTypes = ['Rest', 'Reset', 'Focus', 'Movement', 'Fun'];
 const interestOptions = ['Wellness', 'Sports', 'Cooking', 'Outdoors', 'Creative', 'Learning', 'Family time', 'Relaxing', 'Gardening', 'Reading', 'Travel', 'Music', 'Skincare', 'Home reset', 'Mindfulness', 'Community', 'Personal care'];
 const habitList = ['Drank water', 'Moved my body', 'Showered or refreshed', 'Did one home reset task', 'Spent time on something I enjoy'];
+const interestRotationLibrary = {
+  Wellness: {
+    mustDo: ['Drink water and open the curtains.', 'Take a 5-minute stretch and breathe deeply.', 'Do one important task before noon.', 'Clear one small surface in your space.', 'Set your day up with one calm plan.', 'Eat something nourishing and simple.', 'Take a quick screen-free reset.', 'Make your bed and refresh your space.', 'Choose one task that matters most today.', 'Give yourself a gentler start to the day.'],
+    easy: ['Wash a mug or small dish.', 'Open the window for fresh air.', 'Take a short walk around your home or block.', 'Make a simple cup of tea or water break.', 'Tidy one visible surface.', 'Stretch your shoulders and neck.', 'Sit outside for a few minutes.', 'Put on comfortable clothes.', 'Organize one tray or bag.', 'Do a 2-minute reset before lunch.'],
+    selfCare: ['Take a quiet break without guilt.', 'Refresh your face or shower if needed.', 'Read a few pages or listen to calm music.', 'Do a gentle breathing exercise.', 'Take a short rest away from screens.', 'Treat yourself to a warm drink or snack.', 'Pause and notice what feels heavy today.', 'Spend a few minutes doing something soothing.', 'Take a proper stretch break.', 'Give yourself an easy, kind reset.'],
+    fun: ['Listen to one favorite song or podcast.', 'Watch a short comfort clip or show.', 'Text someone you enjoy.', 'Do a quick creative hobby for 10 minutes.', 'Enjoy a small reward after your tasks.', 'Take a brief walk and notice your surroundings.', 'Read a chapter or enjoy a quiet moment.', 'Do something playful and low-pressure.', 'Let yourself rest without apologizing.', 'Celebrate one small win.'],
+  },
+  Sports: {
+    mustDo: ['Do a 10-minute movement session.', 'Lay out your gear or shoes for later.', 'Stretch after your main task.', 'Take a short walk or mobility reset.', 'Move your body before your day gets busy.', 'Prepare for a workout or active session.', 'Pick one movement goal and do it.', 'Reset your energy with a quick motion break.', 'Set a simple sports or workout plan for today.', 'Make room for a short physical boost.'],
+    easy: ['Do 5 minutes of mobility work.', 'Walk around the block or your home.', 'Stretch your calves, hips, and shoulders.', 'Put on workout clothes and get ready.', 'Take a brisk walk for fresh air.', 'Do a few bodyweight exercises.', 'Roll out or loosen tight muscles.', 'Do a quick squat or stretch session.', 'Do a brief movement challenge.', 'Play a short active video or music routine.'],
+    selfCare: ['Hydrate and cool down properly.', 'Take a short rest after movement.', 'Refuel with something simple and energizing.', 'Take a moment to relax your muscles.', 'Wash up and reset after exercise.', 'Listen to a calm track after activity.', 'Stretch out cramped muscles gently.', 'Take a slow cooldown break.', 'Refill water before the next task.', 'Reward yourself after a workout.'],
+    fun: ['Play a short skill challenge.', 'Do a little drill you enjoy.', 'Take a sports break that feels energizing.', 'Watch a favorite highlight or game clip.', 'Go outside for a quick active moment.', 'Do a recreational activity you love.', 'Try a mini challenge with a friend.', 'Have a light movement reward.', 'Do a fun activity you look forward to.', 'Celebrate your energy by moving.'],
+  },
+  Cooking: {
+    mustDo: ['Plan one simple recipe for today.', 'Prep ingredients for one easy meal.', 'Clean one kitchen surface before or after eating.', 'Cook one nourishing meal.', 'Set aside time to make something comforting.', 'Choose a recipe that feels easy and enjoyable.', 'Keep the prep simple and realistic.', 'Prepare a healthy snack or light meal.', 'Make one part of your meal ahead.', 'Wash a pan or prep a simple ingredient.'],
+    easy: ['Wash one pan or utensil.', 'Set out a healthy snack or drink.', 'Prep one ingredient for later.', 'Clear one counter area.', 'Put ingredients in one visible spot.', 'Wipe the table before eating.', 'Clean the sink or a small area.', 'Organize one food shelf or drawer.', 'Set out bowls or containers.', 'Choose a simple recipe before lunch.'],
+    selfCare: ['Eat something warm and nourishing.', 'Take a small break from screens while cooking.', 'Create a meal that feels comforting and easy.', 'Cook something you look forward to eating.', 'Enjoy one meal without rushing.', 'Give yourself space to slow down.', 'Use ingredients you enjoy.', 'Take a water break before or after cooking.', 'Let the kitchen feel calmer and lighter.', 'Enjoy one simple, comforting meal.'],
+    fun: ['Cook a favorite comforting meal.', 'Try a quick recipe you enjoy.', 'Use a favorite ingredient or flavor.', 'Create a mini meal-prep win.', 'Make something easy and satisfying.', 'Cook alongside music or a favorite show.', 'Enjoy a meal without multitasking.', 'Try a fun variation on a favorite dinner.', 'Make a snack that feels like a treat.', 'Give yourself a small culinary reward.'],
+  },
+  Outdoors: {
+    mustDo: ['Step outside for 10 minutes.', 'Open the curtains and let in light.', 'Take a short walk near fresh air.', 'Get outside before the day gets busy.', 'Go for a brief reset outdoors.', 'Spend some time in natural light.', 'Take a small outdoor break today.', 'Walk outside and reset your focus.', 'Do a quick outdoor reset before lunch.', 'Get one moment of fresh air.'],
+    easy: ['Sit outside for a few minutes.', 'Walk to the mailbox or corner.', 'Take a short loop around the block.', 'Open a window and enjoy the air.', 'Step outside for a drink break.', 'Sit in sunlight for a calm reset.', 'Take a quick wander in a nearby space.', 'Stand outside and breathe deeply.', 'Take a short neighborhood walk.', 'Take one outdoor break without rushing.'],
+    selfCare: ['Take a slow outdoor pause.', 'Give yourself quiet time in fresh air.', 'Listen to birds or sounds outside.', 'Sit somewhere peaceful and breathe.', 'Take a screen-free break outdoors.', 'Spend a few calm minutes outside.', 'Use your time outside as a mental reset.', 'Enjoy a restorative micronap or sit break.', 'Take a slow walk and clear your head.', 'Let the outdoors calm your mind.'],
+    fun: ['Take a walk in a new area.', 'Sit somewhere pretty and relax.', 'Take a scenic route for a few minutes.', 'Visit a park or outdoor spot nearby.', 'Enjoy one outdoor moment that feels good.', 'Bring a drink and take a relaxing walk.', 'Take an outdoor break with a favorite song.', 'Let yourself enjoy the weather.', 'Take a calm outdoor reward break.', 'Do one outdoor thing that lifts your mood.'],
+  },
+  Creative: {
+    mustDo: ['Spend 15 minutes on a creative task.', 'Start one small creative project today.', 'Make room for something playful and low-pressure.', 'Do a short creative reset.', 'Create something for yourself without pressure.', 'Set aside time for a hobby you enjoy.', 'Finish a tiny creative win.', 'Start one creative task and keep it small.', 'Give yourself a low-stakes creative block.', 'Let creativity be part of your day.'],
+    easy: ['Doodle, draw, write, or sketch.', 'Organize your creative tools.', 'Write a quick note or idea.', 'Take a creative pause with music.', 'Refresh a work surface for creativity.', 'Make one small piece of art or design.', 'Use color or inspiration for a short break.', 'Jot down one idea or plan.', 'Take a quick hobby break.', 'Make a tiny creative change in your space.'],
+    selfCare: ['Give yourself a guilt-free creative break.', 'Let your mind wander for a few minutes.', 'Take a quiet, calm creative moment.', 'Pause and make something soothing.', 'Use creativity as a mental reset tool.', 'Take a low-pressure activity break.', 'Make space for joy and expression.', 'Reward yourself with a creative break.', 'Use art or writing as stress relief.', 'Let your creativity be playful.'],
+    fun: ['Do a hobby you genuinely enjoy.', 'Make one fun thing today.', 'Take a creative break with no pressure.', 'Try a small playful project.', 'Create something just because you like it.', 'Write, draw, or experiment for a moment.', 'Use color and texture in a fun way.', 'Create one tiny piece of joy.', 'Give yourself a light artistic reward.', 'Enjoy a fun, relaxing creative session.'],
+  },
+  Learning: {
+    mustDo: ['Spend a little time learning something new.', 'Focus on one useful skill or topic.', 'Read or watch something educational.', 'Keep learning small and realistic today.', 'Set a ten-minute learning goal.', 'Learn one new idea that feels useful.', 'Give yourself a brain-stimulating break.', 'Choose one topic to revisit or explore.', 'Make a small learning win happen.', 'Use a small amount of time to grow.'],
+    easy: ['Read one page or article.', 'Watch a short educational video.', 'Try one small brain exercise.', 'Take a quick language or study break.', 'Look up one useful fact or topic.', 'Write down one thing you want to learn.', 'Read a piece that sparks interest.', 'Practice one small skill for 10 minutes.', 'Learn one short idea from a topic you like.', 'Add one fresh fact to your knowledge.'],
+    selfCare: ['Take a calm, focused break.', 'Give your brain a gentle challenge.', 'Learn without forcing yourself to be perfect.', 'Use learning as a positive routine.', 'Let your curiosity guide your effort.', 'Take a short, useful brain break.', 'Read something enriching and pleasant.', 'Spend a little time on personal growth.', 'Learn in a way that feels comfortable.', 'Prepare yourself for a low-stress win.'],
+    fun: ['Explore a topic you find interesting.', 'Read or watch something you enjoy.', 'Learn in a way that feels fun and light.', 'Use a short educational break as a reward.', 'Let curiosity guide your next step.', 'Enjoy a quick knowledge boost.', 'Move your brain in a fun way.', 'Try one small personal-growth activity.', 'Learn something surprising and interesting.', 'Give yourself a tiny educational reward.'],
+  },
+  'Family time': {
+    mustDo: ['Call or check in with someone you love.', 'Spend a little intentional time with family.', 'Plan one meaningful connection today.', 'Do one caring task for your household.', 'Create a small moment of togetherness.', 'Check in with a family member or loved one.', 'Make one family or home connection.', 'Take time to be present with someone important.', 'Plan a small, warm family moment.', 'Choose one act of care for home or family.'],
+    easy: ['Send a message to a loved one.', 'Share a photo or update with family.', 'Make a cup of tea or snack for home.', 'Talk to someone for a few minutes.', 'Do one helpful task for a household member.', 'Organize a small family activity.', 'Make a call before the day gets busy.', 'Arrange a simple family check-in.', 'Create a small moment of connection.', 'Do a little home task with someone.'],
+    selfCare: ['Take a moment to feel supported.', 'Let yourself enjoy connection without pressure.', 'Spend a calm moment with someone you trust.', 'Give yourself space to be cared for too.', 'Take a rest and enjoy warm company.', 'Make time for a positive connection.', 'Let communication feel easy and light.', 'Give love and receive it in return.', 'Slow down and be present with people.', 'Enjoy a supportive relationship moment.'],
+    fun: ['Share a laugh or favorite memory.', 'Play a quick game or conversation activity.', 'Plan a small outing or family moment.', 'Have a nice conversation with someone.', 'Do one joyful family activity.', 'Take a small break with someone you love.', 'Make the day feel warm and connected.', 'Enjoy one friendly and easy interaction.', 'Share a positive moment with those around you.', 'Celebrate love and connection today.'],
+  },
+  Relaxing: {
+    mustDo: ['Take an intentional calm break.', 'Reduce one pressure point in your day.', 'Do one thing that helps you settle down.', 'Create a quiet moment for yourself.', 'Slow down and take a breath.', 'Give yourself a lower-pressure start.', 'Choose one calming task for today.', 'Take a rest moment without guilt.', 'Set the tone for a less hurried day.', 'Make your day feel easier to carry.'],
+    easy: ['Sit quietly for 3 minutes.', 'Dim lights or create a softer atmosphere.', 'Take a slow tea or water break.', 'Put on calming music or a playlist.', 'Take a short break from notifications.', 'Turn off one distraction for a while.', 'Make a comfortable rest spot.', 'Listen to a gentle sound or podcast.', 'Slow your pace and put on soft music.', 'Take a break without multitasking.'],
+    selfCare: ['Spend a few calm minutes in stillness.', 'Take a screen-free reset.', 'Enjoy gentle rest and quiet breathing.', 'Do one soothing self-care action.', 'Let yourself pause for a moment.', 'Create a restful pocket in the day.', 'Take a lighter approach to your routine.', 'Use rest as part of your progress.', 'Give yourself permission to slow down.', 'Have a peaceful reset and enjoy it.'],
+    fun: ['Enjoy a comfort activity you love.', 'Treat yourself to a gentle pleasure.', 'Do one low-key reward thing today.', 'Relax in a way that feels satisfying.', 'Take a soft, comforting break.', 'Choose something cozy and joyful.', 'Enjoy a calm, easy mental reset.', 'Do a restful activity you actually like.', 'Turn one small moment into a reward.', 'Give yourself one comfortable, pleasant pause.'],
+  },
+  Gardening: {
+    mustDo: ['Water one plant or small garden area.', 'Tidy a small plant or garden spot.', 'Take a few minutes outside with your plants.', 'Care for one plant or flower bed.', 'Check on what needs attention.', 'Choose one gardening task to finish.', 'Refresh a pot or plant area.', 'Create a tiny gardening win today.', 'Water or trim something in your plant space.', 'Take a moment to enjoy nature.'],
+    easy: ['Trim a few leaves or dead stems.', 'Wipe down a pot or garden tool.', 'Move a plant to a brighter spot.', 'Add soil or fresh compost to one pot.', 'Water a plant or window box.', 'Remove dead leaves or weeds.', 'Refresh a small garden area.', 'Organize your garden tools.', 'Take a short outdoor break with plants.', 'Notice one plant that looks better today.'],
+    selfCare: ['Take a calm moment with nature.', 'Spend time around plants without pressure.', 'Enjoy a peaceful outdoor reset.', 'Use plant care as a calming routine.', 'Let fresh air and plants help you reset.', 'Take a gentle outdoor break with your garden.', 'Reward yourself with quiet time outdoors.', 'Sit near plants and breathe deeply.', 'Use nature as a calming reset tool.', 'Take a moment to appreciate what grows.'],
+    fun: ['Enjoy a small garden moment.', 'Let plant care become a calming hobby.', 'Take a slow walk through your garden.', 'Enjoy one outdoor break in nature.', 'Do a little gardening as a reward.', 'Take a peaceful gardening break.', 'Spend time with plants for a mood boost.', 'Enjoy a fresh, calm atmosphere.', 'Pay attention to something growing.', 'Make nature part of your daily reset.'],
+  },
+  Reading: {
+    mustDo: ['Read 10 minutes of a book or article.', 'Pick one reading session for today.', 'Give yourself a quiet, no-phone moment.', 'Read something that feels helpful or uplifting.', 'Set a goal to read a few pages.', 'Read a chapter or article before work starts.', 'Use reading as a calm reset.', 'Choose one comforting book or piece.', 'Spend a few minutes on something meaningful.', 'Read something that feels nourishing.'],
+    easy: ['Read one page before checking messages.', 'Read a short interesting article.', 'Read in a cozy chair or outside.', 'Make tea and settle in with one chapter.', 'Read something easy and enjoyable.', 'Take a quiet, comfortable reading break.', 'Read in a calm space for a few minutes.', 'Choose a simple reading topic.', 'Read a short story or article.', 'Read before bed or after lunch.'],
+    selfCare: ['Give yourself a quiet, screen-free break.', 'Read something comforting and calming.', 'Use reading as a way to unwind.', 'Take a moment for your mind to slow down.', 'Enjoy a gentle, restful activity.', 'Spend time in a comforting mental escape.', 'Read without pressure or deadlines.', 'Let reading feel like a reward.', 'Take a moment to rest with a good book.', 'Use books to reset your energy.'],
+    fun: ['Read a chapter you love.', 'Pick something entertaining and easy.', 'Give yourself a relaxing reading break.', 'Enjoy one literary reward moment.', 'Read something that makes you smile.', 'Take a quiet reading pause.', 'Pick a book or article that feels uplifting.', 'Let reading be calming and enjoyable.', 'Read a short piece for joy.', 'Enjoy a comfortable reading ritual.'],
+  },
+  Travel: {
+    mustDo: ['Plan a simple outing or change of scenery.', 'Prepare what you need for a short trip or outing.', 'Take one step toward a fresh environment.', 'Choose one small adventure today.', 'Plan a brief change of place today.', 'Make a little travel moment happen.', 'Take a small excursion or outing.', 'Give yourself a change of scenery.', 'Plan something simple outside your usual routine.', 'Create a mini adventure that feels doable.'],
+    easy: ['Walk somewhere new for a few minutes.', 'Pack a bag for a quick outing.', 'Take a short drive or walk to a new place.', 'Open a window and imagine a fresh place.', 'Do a mini local exploration.', 'Visit one nearby spot you enjoy.', 'Take a short trip around your area.', 'Update your travel plans for later.', 'Take a small excursion with a purpose.', 'Choose a scenic route or new location.'],
+    selfCare: ['Enjoy a break from routine.', 'Let yourself reset in a new space.', 'Take a calm trip or outing for your mind.', 'Use a change of scenery to recharge.', 'Give yourself a quiet adventure.', 'Take a new environment as a mental reset.', 'Enjoy a restful outing without pressure.', 'Travel lightly and simply.', 'Use movement and new places to reset.', 'Take a small change of pace.'],
+    fun: ['Take a scenic outing or small adventure.', 'Plan a mini treat for yourself.', 'Do one thing that feels exciting but manageable.', 'Go somewhere refreshing for a bit.', 'Enjoy a break from your usual setting.', 'Take a low-stress change-of-place moment.', 'Turn one outing into a reward.', 'Explore a place you have not seen in a while.', 'Enjoy a small trip around town.', 'Give yourself a taste of exploration.'],
+  },
+  Music: {
+    mustDo: ['Play one favorite song to reset your energy.', 'Take a short movement break with music.', 'Use a playlist to make a task feel lighter.', 'Choose a song that boosts your mood.', 'Set one uplifting track for the day.', 'Play something calming before a task.', 'Pick music that matches your energy.', 'Give yourself a 5-minute music reset.', 'Use a playlist as your backdrop for one task.', 'Choose a track that feels encouraging.'],
+    easy: ['Dance for 2 minutes.', 'Stretch while playing music.', 'Put on calm music while tidying.', 'Play a favorite track while cleaning.', 'Create a short music reset break.', 'Listen to one song while you rest.', 'Switch your environment with a new playlist.', 'Play music while folding or organizing.', 'Take one upbeat song break.', 'Use music to energize a small task.'],
+    selfCare: ['Give yourself a soothing music break.', 'Use calm music to relax and reset.', 'Let music lower stress for a few minutes.', 'Take a peaceful listening break.', 'Enjoy a track that calms your nervous system.', 'Use music to ease tension.', 'Let a song reset your focus and mood.', 'Play one comforting track while resting.', 'Give yourself a little emotional reset.', 'Use music to help you slow down.'],
+    fun: ['Pick a favorite song and enjoy it.', 'Create a mini mood boost with music.', 'Listen to something that makes you smile.', 'Take a fun music reward break.', 'Learn a song you love to repeat.', 'Let music make a boring task more playful.', 'Create a soundtrack for your day.', 'Listen to something uplifting and happy.', 'Start your day with a favorite tune.', 'Let music turn a small task into a ritual.'],
+  },
+  Skincare: {
+    mustDo: ['Wash your face gently and reset.', 'Apply moisturizer to hydrate your skin.', 'Cleanse your skin and refresh your routine.', 'Use sunscreen if you are heading outside.', 'Do a simple facial care reset today.', 'Clean your skin and prep for the day ahead.', 'Take a few minutes for a basic skin ritual.', 'Use toner or serum if you have one.', 'Do a gentle cleanse and finish with moisturizer.', 'Refresh your skincare routine without rushing.'],
+    easy: ['Wash your hands and clean your face.', 'Apply a hydrating mist or spray.', 'Clean up and remove makeup gently.', 'Use a toner or soothing step.', 'Apply a simple moisturizer.', 'Clean your pillow and set up your routine.', 'Take a short skincare break.', 'Use a gentle sheet mask or calming treatment.', 'Apply sunscreen before going outside.', 'Take a few minutes to restore your skin.'],
+    selfCare: ['Enjoy a calming skincare ritual.', 'Take a moment to care for your skin gently.', 'Treat your skin like a priority, not a chore.', 'Use a soothing routine to slow down.', 'Take a brief, relaxing skincare reset.', 'Give your face a fresh and calm start.', 'Take a screen-free moment while you care for yourself.', 'Let skincare be a calming ritual, not a rush.', 'Use a nourishing product that feels good.', 'Take a gentle reset for your skin and mind.'],
+    fun: ['Try a product you enjoy using.', 'Treat yourself to a soothing skincare moment.', 'Use your favorite facial step as a reward.', 'Turn skincare into a little ritual of care.', 'Enjoy a mindful skin routine.', 'Make your skincare time feel like a reset.', 'Use calming products and enjoy the process.', 'Do a mini self-care ritual with no rush.', 'Give yourself one gentle luxury moment.', 'Refresh your skin and enjoy a calm, cozy ritual.'],
+  },
+  'Home reset': {
+    mustDo: ['Clear one visible surface today.', 'Reset one room or corner of your space.', 'Tidy one high-impact area in your home.', 'Set up one zone so it feels easier.', 'Focus on one home task that reduces friction.', 'Do one small home reset before the day ends.', 'Tidy a sink, table, or entry area.', 'Reset one part of your home for calm.', 'Choose the easiest room or surface to fix.', 'Make one area of your home feel lighter.'],
+    easy: ['Do one quick laundry fold.', 'Wash one dish or tray.', 'Put away one basket or pile.', 'Clear one table or countertop.', 'Reset one chair or corner.', 'Put away clutter from a visible spot.', 'Wipe down one table or shelf.', 'Straighten one small area quickly.', 'Take 5 minutes to make things calmer.', 'Make one home task feel easy and quick.'],
+    selfCare: ['Make your environment feel calmer and more comfortable.', 'Enjoy the comfort of a tidier space.', 'Take a breath and enjoy your reset.', 'Use home care as a stress reset.', 'Give yourself a calmer living space.', 'Let your home feel easier to move through.', 'Create a nicer environment without pressure.', 'Simplify one space to make life lighter.', 'Take pride in a small home win.', 'Let the reset feel satisfying and easy.'],
+    fun: ['Make your room feel fresh and cozy.', 'Turn a little reset into a mini reward.', 'Take a short home reset break with music.', 'Enjoy the feeling of a calmer room.', 'Make one space feel lighter and nicer.', 'Create a cozy zone that feels better.', 'Treat your home reset like a reward.', 'Refresh a room and enjoy the difference.', 'Make your environment feel brighter.', 'Celebrate a clean and calmer space.'],
+  },
+  Mindfulness: {
+    mustDo: ['Take 5 minutes for a breathing break.', 'Pause and notice your body and breath.', 'Take a short mindfulness reset.', 'Do one calming reflective check-in.', 'Stop for a moment and slow your thoughts.', 'Practice one mindful pause today.', 'Take a no-pressure breath break.', 'Choose a calming anchor for your day.', 'Reset with one breath and one pause.', 'Notice one thing that feels manageable.'],
+    easy: ['Sit comfortably and breathe deeply.', 'Close your eyes for a minute and reset.', 'Take a calm phone-free rest.', 'Take a quiet moment to feel your feet.', 'Look around and notice one grounding thing.', 'Stretch slowly and breathe deeply.', 'Use a gentle breath exercise.', 'Pause and feel your shoulders release.', 'Take a soft reset from hectic thoughts.', 'Take a quiet, grounding break.'],
+    selfCare: ['Give your mind a gentle, supportive pause.', 'Use mindfulness to lower tension.', 'Spend time calming your thoughts.', 'Reduce pressure with a calm reset.', 'Take a thoughtful break without judgment.', 'Notice what feels heavy and let it soften.', 'Create a mindful pocket in the day.', 'Make room for a deeper breath.', 'Use stillness to recharge your mind.', 'Take a few restful moments to settle.'],
+    fun: ['Enjoy a peaceful and grounding break.', 'Make calmness feel like a reward.', 'Take a quiet mindful pause you actually enjoy.', 'Give yourself a gentle mental reset.', 'Take a low-pressure spiritual or mindful moment.', 'Let stillness feel comforting and rewarding.', 'Rest in a soft, soothing moment.', 'Use mindfulness as a small but meaningful treat.', 'Enjoy a moment that makes you feel calmer.', 'Let peaceful grounding become part of your routine.'],
+  },
+  Community: {
+    mustDo: ['Reach out to someone you appreciate.', 'Do one kind thing for your community.', 'Check in with a friend or neighbor.', 'Take one step toward connection today.', 'Make one supportive human contact.', 'Think of one person who may need encouragement.', 'Do a kind or helpful act today.', 'Reach out to someone and be present.', 'Create one warm social moment.', 'Choose a small act of connection.'],
+    easy: ['Send a quick message to a friend.', 'Say hello to someone nearby.', 'Be kind to the person next to you.', 'Offer a helpful comment or gesture.', 'Chat with someone for a few minutes.', 'Give a compliment or kind word.', 'Reach out and reconnect with one person.', 'Do one nice thing for a neighbor.', 'Use a small moment of kindness.', 'Take a step toward social connection.'],
+    selfCare: ['Enjoy a warm connection without pressure.', 'Take a social break that feels positive.', 'Let connection help lower stress.', 'Spend a small amount of time feeling supported.', 'Use community as a source of comfort.', 'Take a moment for human warmth.', 'Give yourself a kind social reset.', 'Let kindness become part of your day.', 'Choose one uplifting connection.', 'Enjoy a supportive interaction.'],
+    fun: ['Have a positive conversation with someone.', 'Text someone you enjoy talking to.', 'Plan a small friendly interaction.', 'Share a kind or encouraging message.', 'Send a happy note to someone you care about.', 'Take a positive social reward break.', 'Choose one uplifting connection today.', 'Enjoy a warm, easy interaction.', 'Be a little more social than usual.', 'Let connection feel pleasant and energizing.'],
+  },
+  'Personal care': {
+    mustDo: ['Take a few minutes to care for yourself.', 'Refresh your body and space today.', 'Do one personal care task without rushing.', 'Give yourself a gentle reset for your body.', 'Keep your personal care simple and consistent.', 'Refresh your routine with something basic and useful.', 'Take time to look after yourself properly.', 'Complete one self-care task today.', 'Set aside one small self-care moment.', 'Give yourself a kind and easy reset.'],
+    easy: ['Drink water and wash your face.', 'Brush your hair or freshen up.', 'Change into comfortable clothes.', 'Take a short shower or refresh routine.', 'Wear something comfortable and easy.', 'Set out your essentials for later.', 'Take a 5-minute reset break.', 'Do a gentle stretch and hydrate.', 'Use a simple daily care ritual.', 'Take a few minutes to reset physically.'],
+    selfCare: ['Make self-care feel easy and kind.', 'Take a moment to feel refreshed.', 'Use self-care as a gentle reset tool.', 'Treat your body with patience and care.', 'Let self-care be a comfort, not a task.', 'Take a quiet, personal care pause.', 'Give yourself permission to reset gently.', 'Make your routine feel supportive and calm.', 'Use self-care as a healthy daily habit.', 'Take a moment to feel restored.'],
+    fun: ['Turn self-care into a small joy.', 'Enjoy a nice personal care ritual.', 'Give yourself one little treat you enjoy.', 'Use a small comfort step as a reward.', 'Create a pleasant care moment for yourself.', 'Make self-care feel warm and calming.', 'Enjoy a soft, positive reset activity.', 'Treat yourself to a calm and gentle routine.', 'Take a moment that makes you feel cared for.', 'Make your body care feel nourishing and easy.'],
+  },
+};
+
+function getRotatedInterestOptions(interest, activities = '') {
+  const baseOptions = interestRotationLibrary[interest] || interestRotationLibrary.Wellness;
+  const dayKey = Math.floor(Date.now() / 86400000);
+  const seed = `${(interest || 'Wellness').toLowerCase()}-${dayKey}`;
+  let hash = 0;
+
+  for (let i = 0; i < seed.length; i += 1) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+
+  const offset = Math.abs(hash) % 10;
+  const rotate = (items = []) => Array.from({ length: Math.min(3, items.length) }, (_, index) => items[(offset + index) % items.length]);
+
+  const customActivityText = activities ? activities.trim() : '';
+  const withCustom = customActivityText ? {
+    mustDo: [
+      `Focus on ${customActivityText} for a few minutes.`,
+      ...rotate(baseOptions.mustDo),
+    ].slice(0, 3),
+    easy: [
+      `Prepare for ${customActivityText} in a simple way.`,
+      ...rotate(baseOptions.easy),
+    ].slice(0, 3),
+    selfCare: [
+      `Take a gentle pause while you enjoy ${customActivityText}.`,
+      ...rotate(baseOptions.selfCare),
+    ].slice(0, 3),
+    fun: [
+      `Make ${customActivityText} feel fun and easy today.`,
+      ...rotate(baseOptions.fun),
+    ].slice(0, 3),
+  } : {
+    mustDo: rotate(baseOptions.mustDo),
+    easy: rotate(baseOptions.easy),
+    selfCare: rotate(baseOptions.selfCare),
+    fun: rotate(baseOptions.fun),
+  };
+
+  return withCustom;
+}
 const motivationPool = [
   'Small steps still move you forward.',
   'Your pace is valid, even when it is quiet.',
@@ -403,102 +549,13 @@ function generatePlan(energy, mood, focus, profile = {}) {
     fun: [...base.fun],
   };
 
-  if (interest === 'Sports') {
-    const sportText = activities ? activities.trim() : 'your favorite sport';
-    adjusted.mustDo = [`Do a 10-minute ${sportText} session or movement reset.`, 'Lay out your gear or shoes for later.', 'Take a quick stretch after your main task.'];
-    adjusted.fun = ['Play a short workout or skill challenge.', 'Take a small break to enjoy your favorite sports moment.', 'Give yourself a light reward after the activity.'];
-  }
+  const rotatedOptions = getRotatedInterestOptions(interest, activities);
 
-  if (interest === 'Cooking') {
-    const recipeText = activities ? activities.trim() : 'one simple recipe';
-    adjusted.mustDo = [
-      `Plan ${recipeText} for today or prep ingredients.`,
-      'Clean one kitchen surface before or after eating.',
-      'Make one easy, nourishing meal.',
-    ];
-    adjusted.easy = ['Wash one pan or prep one ingredient.', 'Set out a healthy snack or drink.', 'Do a quick kitchen reset.'];
-    adjusted.fun = ['Cook something simple that feels comforting.', 'Use your favorite ingredients for a quick win.', 'Enjoy one meal without rushing or multitasking.'];
-  }
-
-  if (interest === 'Outdoors') {
-    const outsideText = activities ? activities.trim() : 'a short walk';
-    adjusted.mustDo = [`Step outside for 10 minutes and do ${outsideText}.`, 'Open the curtains and let in more light.', 'Take a brief reset near fresh air.'];
-    adjusted.fun = ['Enjoy one outdoor moment that feels easy and calming.', 'Take a gentle walk or sit outside for a few minutes.', 'Make your outdoor time feel like a reward.'];
-  }
-
-  if (interest === 'Creative') {
-    const creativeText = activities ? activities.trim() : 'a creative hobby';
-    adjusted.mustDo = [`Give yourself 15 minutes for ${creativeText}.`, 'Start one small creative task and keep it low-pressure.', 'Make room for something playful today.'];
-    adjusted.fun = ['Do a short hobby break that feels energizing.', 'Create something small and enjoyable.', 'Take a tiny reward moment after you finish.'];
-  }
-
-  if (interest === 'Learning') {
-    const learningText = activities ? activities.trim() : 'one small learning goal';
-    adjusted.mustDo = [`Spend a little time on ${learningText}.`, 'Focus on one skill or topic that feels useful.', 'Keep the effort small and sustainable.'];
-    adjusted.fun = ['Read, watch, or explore something that sparks curiosity.', 'Give yourself a short brain break.', 'Celebrate progress even if it is tiny.'];
-  }
-
-  if (interest === 'Gardening') {
-    const gardenText = activities ? activities.trim() : 'a plant or garden task';
-    adjusted.mustDo = [`Care for ${gardenText} for a few minutes.`, 'Water one plant or tidy a small space.', 'Take a moment to notice the outdoor environment around you.'];
-    adjusted.easy = ['Trim a few leaves or remove dead stems.', 'Wipe down a pot or small gardening tool.', 'Step outside for fresh air and a short reset.'];
-    adjusted.fun = ['Enjoy a calm outdoor break with your plants.', 'Take a mindful minute to notice what is growing.', 'Use this time to slow down and reconnect with nature.'];
-  }
-
-  if (interest === 'Reading') {
-    const readingText = activities ? activities.trim() : 'a book or article';
-    adjusted.mustDo = [`Spend 10 minutes with ${readingText}.`, 'Read something uplifting or useful for your day.', 'Create a quiet moment for focus and calm.'];
-    adjusted.easy = ['Make tea or water before your reading break.', 'Read one page before checking messages.', 'Take a short pause away from screens.'];
-    adjusted.fun = ['Enjoy one chapter or a short article.', 'Read something comforting and easy.', 'Reward yourself with a quiet, screen-free moment.'];
-  }
-
-  if (interest === 'Travel') {
-    const travelText = activities ? activities.trim() : 'a local outing';
-    adjusted.mustDo = [`Plan a simple ${travelText} or little adventure today.`, 'Pack or prepare what you need for a short outing.', 'Take one small step toward something new or refreshing.'];
-    adjusted.easy = ['Take a walk in a new area.', 'Open the curtains and imagine a fresh place to visit.', 'Set up your bag or essentials for later.'];
-    adjusted.fun = ['Give yourself a small adventure moment.', 'Enjoy a brief outing or change of scenery.', 'Take a photo or note something new you noticed.'];
-  }
-
-  if (interest === 'Music') {
-    const musicText = activities ? activities.trim() : 'one playlist or song';
-    adjusted.mustDo = [`Play ${musicText} to reset your energy.`, 'Take a brief movement break while music plays.', 'Choose one song that feels uplifting.'];
-    adjusted.easy = ['Dance for two minutes or stretch to a beat.', 'Put on a calm track while you tidy one space.', 'Take a short break to enjoy the sound around you.'];
-    adjusted.fun = ['Create a mini mood boost with your favorite sound.', 'Let music make a boring task feel lighter.', 'Give yourself a small reward while listening.'];
-  }
-
-  if (interest === 'Skincare') {
-    const skincareText = activities ? activities.trim() : 'your skin reset routine';
-    adjusted.mustDo = [`Do a gentle ${skincareText} or refresh ritual.`, 'Wash your face or clean up for the day.', 'Take a few minutes for a calming personal care routine.'];
-    adjusted.easy = ['Apply moisturizer or facial mist.', 'Wash your hands and clean up before lunch.', 'Take a quick reset and drink water.'];
-    adjusted.fun = ['Give yourself a soothing self-care moment.', 'Enjoy a calming ritual without rushing.', 'Treat this like a slow, nurturing reward.'];
-  }
-
-  if (interest === 'Home reset') {
-    const homeText = activities ? activities.trim() : 'one room or surface';
-    adjusted.mustDo = [`Reset ${homeText} and make it feel easier to use.`, 'Clear one clutter zone or surface.', 'Set up the next part of your day with less friction.'];
-    adjusted.easy = ['Wash one dish or tidy one basket.', 'Fold a blanket or arrange a corner.', 'Open windows or light a candle for a fresh feel.'];
-    adjusted.fun = ['Give your space a quick breathing room.', 'Turn a small reset into a satisfying win.', 'Enjoy the comfort of a calmer home.'];
-  }
-
-  if (interest === 'Mindfulness') {
-    const mindfulText = activities ? activities.trim() : 'a short breathing or reflection break';
-    adjusted.mustDo = [`Take 5 minutes for ${mindfulText}.`, 'Pause and notice your breathing.', 'Let your day feel a little simpler and more grounded.'];
-    adjusted.easy = ['Sit quietly and notice one calming thing.', 'Stretch gently and breathe deeply.', 'Take a no-phone break for a few minutes.'];
-    adjusted.fun = ['Enjoy a soft, restful pause.', 'Give yourself a peaceful reset without pressure.', 'Celebrate a moment of calm.'];
-  }
-
-  if (interest === 'Community') {
-    const communityText = activities ? activities.trim() : 'one supportive connection';
-    adjusted.mustDo = [`Reach out to someone or do ${communityText}.`, 'Do one kind act or helpful gesture.', 'Create a small moment of connection today.'];
-    adjusted.easy = ['Send a message to someone you appreciate.', 'Say hello to a neighbor or coworker.', 'Take a short walk and enjoy the world around you.'];
-    adjusted.fun = ['Make one small connection that feels good.', 'Choose a friendly, uplifting interaction.', 'Give yourself a warm and human moment.'];
-  }
-
-  if (interest === 'Personal care') {
-    const personalText = activities ? activities.trim() : 'your daily care ritual';
-    adjusted.mustDo = [`Give yourself time for ${personalText}.`, 'Refresh your body and space for the next phase of the day.', 'Take care of one small wellbeing task without rushing.'];
-    adjusted.easy = ['Wash your face or shower.', 'Drink water and stretch for a minute.', 'Set out clothes or a simple daily routine.'];
-    adjusted.fun = ['Make self-care feel enjoyable, not strict.', 'Treat yourself to a soothing, unhurried moment.', 'Enjoy the comfort of taking care of yourself.'];
+  if (interest && interestRotationLibrary[interest]) {
+    adjusted.mustDo = rotatedOptions.mustDo;
+    adjusted.easy = rotatedOptions.easy;
+    adjusted.selfCare = rotatedOptions.selfCare;
+    adjusted.fun = rotatedOptions.fun;
   }
 
   if (focus === 'Rest') {
