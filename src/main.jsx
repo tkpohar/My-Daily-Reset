@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { createClient } from '@supabase/supabase-js';
 import './styles.css';
 
 const planLibrary = {
@@ -52,6 +53,96 @@ const challengePool = [
   'Do one thing that makes your space feel nicer.',
   'Listen to one song that lifts your mood.',
 ];
+
+const getSupabaseClient = () => {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    return null;
+  }
+
+  return createClient(supabaseUrl, supabaseKey);
+};
+
+const getLocalHistory = () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem('my-daily-reset-history') || '[]');
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
+};
+
+const mergeHistoryEntries = (localEntries = [], remoteEntries = []) => {
+  const merged = [...remoteEntries, ...localEntries];
+  const unique = new Map();
+
+  merged.forEach((entry) => {
+    const key = `${entry.date || ''}-${entry.mood || ''}-${entry.energy || ''}-${entry.focus || ''}-${entry.reflection || ''}`;
+    if (!unique.has(key)) {
+      unique.set(key, entry);
+    }
+  });
+
+  return Array.from(unique.values()).sort((a, b) => new Date(b.date) - new Date(a.date));
+};
+
+const fetchRemoteHistory = async () => {
+  const supabase = getSupabaseClient();
+
+  if (!supabase) {
+    return [];
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('daily_resets')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(12);
+
+    if (error || !data) {
+      return [];
+    }
+
+    return data.map((row) => ({
+      date: row.date || row.created_at,
+      energy: row.energy,
+      mood: row.mood,
+      focus: row.focus,
+      reflection: row.reflection || '',
+      habits: Array.isArray(row.habits) ? row.habits : [],
+      plan: row.plan || null,
+    }));
+  } catch {
+    return [];
+  }
+};
+
+const saveRemoteHistory = async (entry) => {
+  const supabase = getSupabaseClient();
+
+  if (!supabase) {
+    return;
+  }
+
+  try {
+    const record = {
+      date: entry.date,
+      energy: entry.energy,
+      mood: entry.mood,
+      focus: entry.focus,
+      reflection: entry.reflection,
+      habits: entry.habits,
+      plan: entry.plan,
+    };
+
+    await supabase.from('daily_resets').insert(record);
+  } catch {
+    // Fallback quietly if the remote table is not configured yet.
+  }
+};
 
 function getDailyMotivation() {
   const todayKey = Math.floor(Date.now() / 86400000);
@@ -117,10 +208,17 @@ function App() {
   const [motivation, setMotivation] = useState(() => getDailyMotivation());
   const [diceValue, setDiceValue] = useState(1);
   const [challenge, setChallenge] = useState(() => challengePool[0]);
-  const [history, setHistory] = useState(() => {
-    const saved = JSON.parse(localStorage.getItem('my-daily-reset-history') || '[]');
-    return Array.isArray(saved) ? saved : [];
-  });
+  const [history, setHistory] = useState(() => getLocalHistory());
+
+  useEffect(() => {
+    const hydrateHistory = async () => {
+      const remoteEntries = await fetchRemoteHistory();
+      const merged = mergeHistoryEntries(getLocalHistory(), remoteEntries);
+      setHistory(merged);
+    };
+
+    hydrateHistory();
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem('my-daily-reset-state');
@@ -160,7 +258,9 @@ function App() {
       plan: generatedPlan,
     };
 
-    setHistory((prev) => [entry, ...prev].slice(0, 12));
+    const updatedHistory = [entry, ...history].slice(0, 12);
+    setHistory(updatedHistory);
+    saveRemoteHistory(entry);
   };
 
   const handleDiceRoll = () => {
