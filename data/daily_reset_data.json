@@ -1,0 +1,31 @@
+{
+  "entries": [
+    {
+      "date": "2026-09-22",
+      "energy_level": "High",
+      "mood": "Motivated",
+      "focus": "Reset",
+      "plan": {
+        "must_do": [
+          "Pick one important task and finish it before noon.",
+          "Clean or organize one zone that matters to you."
+        ],
+        "easy": [
+          "Take a brisk 15-minute walk.",
+          "Do a focused home reset in 15 minutes.",
+          "Sort and prep one small area for the rest of the day."
+        ],
+        "self_care": [
+          "Take a healthy lunch break and reset your energy.",
+          "Complete one small wellness habit like stretching or journaling.",
+          "Move away from screens for a short recharge."
+        ],
+        "fun": [
+          "Plan a rewarding activity you genuinely enjoy.",
+          "Spend time creating, watching, or learning something fun.",
+          "Do one small thing that makes the day feel special."
+        ]
+      }
+    }
+  ]
+}

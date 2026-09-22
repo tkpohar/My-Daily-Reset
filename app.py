@@ -158,17 +158,25 @@ def render_plan(plan: dict) -> None:
     st.subheader("Your reset plan for today")
     columns = st.columns(4)
     sections = [
-        ("Must do", plan["must_do"]),
-        ("Easy wins", plan["easy"]),
-        ("Self care", plan["self_care"]),
-        ("Fun", plan["fun"]),
+        ("Must do", plan["must_do"], "#ff8fab"),
+        ("Easy wins", plan["easy"], "#7ec8b8"),
+        ("Self care", plan["self_care"], "#ffd166"),
+        ("Fun", plan["fun"], "#9bb7ff"),
     ]
 
-    for column, (title, items) in zip(columns, sections):
+    for column, (title, items, color) in zip(columns, sections):
         with column:
-            st.markdown(f"### {title}")
-            for item in items:
-                st.markdown(f"- {item}")
+            st.markdown(
+                f"""
+                <div class="plan-card" style="border-top: 5px solid {color};">
+                    <h3 style="margin-top: 0; color: #2b2d42;">{title}</h3>
+                    <ul>
+                        {''.join(f'<li style="margin-bottom: 0.6rem;">{item}</li>' for item in items)}
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
 
 def render_habit_tracker() -> None:
@@ -191,6 +199,152 @@ def render_habit_tracker() -> None:
 
 def main() -> None:
     st.set_page_config(page_title="My Daily Reset", page_icon="🌤️", layout="wide")
+
+    st.markdown(
+        """
+        <style>
+        :root {
+            --bg1: #fff3ec;
+            --bg2: #eef7ff;
+            --bg3: #f4f1ff;
+            --card: rgba(255,255,255,0.72);
+            --primary: #ff7aa2;
+            --secondary: #66c7b4;
+            --accent: #ffd166;
+            --text: #1d2433;
+            --muted: #58657c;
+            --border: rgba(29, 36, 51, 0.08);
+        }
+
+        .stApp {
+            background:
+                radial-gradient(circle at top left, rgba(255, 122, 162, 0.22), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(102, 199, 180, 0.22), transparent 25%),
+                linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 50%, var(--bg3) 100%);
+            color: var(--text);
+            animation: drift 18s ease-in-out infinite alternate;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stApp::before,
+        .stApp::after {
+            content: "";
+            position: fixed;
+            inset: auto;
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.45;
+            z-index: 0;
+            pointer-events: none;
+            animation: floatGlow 20s ease-in-out infinite alternate;
+        }
+
+        .stApp::before {
+            left: -60px;
+            top: 10%;
+            background: rgba(255, 122, 162, 0.28);
+        }
+
+        .stApp::after {
+            right: -80px;
+            bottom: 10%;
+            background: rgba(102, 199, 180, 0.26);
+            animation-delay: 6s;
+        }
+
+        .stSidebar {
+            background: rgba(255,255,255,0.45);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid var(--border);
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--text);
+            position: relative;
+            z-index: 1;
+        }
+
+        .block-container {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        div[data-testid="stMetricValue"] {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        div[data-testid="stMetricLabel"] {
+            color: var(--muted);
+        }
+
+        .stButton > button {
+            background: linear-gradient(135deg, var(--primary), #ffb3c8);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            padding: 0.65rem 1.05rem;
+            box-shadow: 0 10px 22px rgba(255, 122, 162, 0.23);
+        }
+
+        .stCheckbox {
+            background: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            padding: 0.15rem 0.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .stTextArea textarea,
+        .stSelectbox > div,
+        .stTextInput > div {
+            border-radius: 12px;
+            border: 1px solid rgba(102, 199, 180, 0.4);
+            background: rgba(255,255,255,0.8);
+        }
+
+        .stAlert {
+            border-radius: 14px;
+            border: 1px solid rgba(102, 199, 180, 0.35);
+            background: rgba(102, 199, 180, 0.12);
+        }
+
+        .plan-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1rem 1rem 0.3rem 1rem;
+            box-shadow: 0 12px 28px rgba(39, 45, 90, 0.08);
+            margin-top: 0.75rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .tab-card {
+            background: rgba(255,255,255,0.56);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 16px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, -20px) scale(1.15); }
+        }
+
+        @keyframes drift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
     st.title("My Daily Reset")
     st.caption("A gentle daily plan for low-energy days, busy days, and everything in between.")
@@ -229,19 +383,44 @@ def main() -> None:
         default_plan = generate_daily_plan("medium", "neutral", "reset")
         st.session_state["plan"] = default_plan
 
-    st.metric("Current energy", energy_level)
-    st.metric("Current mood", mood)
+    overview, habits, reflection, wins = st.tabs(["Today", "Habits", "Reflection", "Wins"])
 
-    render_plan(st.session_state["plan"])
-    render_habit_tracker()
+    with overview:
+        st.markdown('<div class="tab-card">', unsafe_allow_html=True)
+        c1, c2 = st.columns(2)
+        with c1:
+            st.metric("Current energy", energy_level)
+        with c2:
+            st.metric("Current mood", mood)
+        st.markdown('</div>', unsafe_allow_html=True)
+        render_plan(st.session_state["plan"])
 
-    st.subheader("Quick reflection")
-    reflection = st.text_area(
-        "What stood out today?",
-        placeholder="Write one sentence about what felt manageable or hard.",
-    )
-    if reflection:
-        st.info("Thanks for checking in with yourself.")
+    with habits:
+        render_habit_tracker()
+
+    with reflection:
+        reflection = st.text_area(
+            "What stood out today?",
+            placeholder="Write one sentence about what felt manageable or hard.",
+        )
+        if reflection:
+            st.info("Thanks for checking in with yourself.")
+
+    with wins:
+        st.markdown(
+            """
+            <div class="tab-card">
+                <h3>Small wins</h3>
+                <ul>
+                    <li>Drank water</li>
+                    <li>Moved my body</li>
+                    <li>Handled one hard task</li>
+                    <li>Created a calmer routine</li>
+                </ul>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 
 if __name__ == "__main__":
