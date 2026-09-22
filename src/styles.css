@@ -410,6 +410,28 @@ button, select, textarea {
   color: #212a3b;
 }
 
+.recipe-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.recipe-filter {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(120, 131, 170, 0.12);
+  border-radius: 999px;
+  padding: 0.45rem 0.75rem;
+  color: #3b4a68;
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+
+.recipe-filter.active {
+  background: linear-gradient(135deg, rgba(110, 200, 184, 0.18), rgba(255, 122, 162, 0.14));
+  border-color: rgba(110, 200, 184, 0.32);
+}
+
 .recipe-layout {
   display: grid;
   grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
@@ -542,6 +564,30 @@ button, select, textarea {
 
 .profile-row strong {
   text-align: right;
+}
+
+.favorite-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 1rem 0;
+}
+
+.favorite-list-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  background: rgba(255,255,255,0.58);
+  border: 1px solid rgba(120, 131, 170, 0.12);
+  border-radius: 12px;
+  padding: 0.7rem 0.85rem;
+  color: #33415e;
+  cursor: pointer;
+}
+
+.favorite-list-item small {
+  color: #5d6a84;
 }
 
 .chip-group {

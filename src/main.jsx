@@ -55,6 +55,8 @@ const challengePool = [
   'Listen to one song that lifts your mood.',
 ];
 
+const recipeCategories = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Quick dinner', 'Snack', 'Easy dinner', 'Protein'];
+
 const recipeLibrary = [
   {
     id: 'lemon-garlic-chicken-bowl',
@@ -132,6 +134,149 @@ const recipeLibrary = [
       'Place turkey slices and avocado on top.',
       'Roll tightly and slice in half.',
       'Enjoy with fruit or a side salad.',
+    ],
+  },
+  {
+    id: 'greek-salmon-bowl',
+    title: 'Greek Salmon Bowl',
+    time: '22 min',
+    category: 'Dinner',
+    ingredients: ['salmon', 'quinoa', 'cucumber', 'tomatoes', 'feta', 'lemon'],
+    steps: [
+      'Cook the quinoa until fluffy.',
+      'Bake or pan-sear the salmon until flaky.',
+      'Add cucumber, tomatoes, and feta to the bowl.',
+      'Top with lemon juice and serve warm.',
+    ],
+  },
+  {
+    id: 'sheet-pan-veggies-eggs',
+    title: 'Sheet Pan Veggie Eggs',
+    time: '18 min',
+    category: 'Breakfast',
+    ingredients: ['eggs', 'peppers', 'spinach', 'onion', 'olive oil'],
+    steps: [
+      'Roast the vegetables with olive oil until tender.',
+      'Add the vegetables to a baking dish and crack in the eggs.',
+      'Bake until the eggs are set.',
+      'Serve with toast if you want a little extra fullness.',
+    ],
+  },
+  {
+    id: 'chicken-quesadillas',
+    title: 'Chicken Quesadillas',
+    time: '15 min',
+    category: 'Quick dinner',
+    ingredients: ['tortillas', 'chicken', 'cheese', 'black beans', 'salsa'],
+    steps: [
+      'Warm the chicken and beans in a pan.',
+      'Add cheese and chicken to half of each tortilla.',
+      'Fold and cook until golden on both sides.',
+      'Serve with salsa and a side salad.',
+    ],
+  },
+  {
+    id: 'berry-yogurt-parfait',
+    title: 'Berry Yogurt Parfait',
+    time: '7 min',
+    category: 'Breakfast',
+    ingredients: ['greek yogurt', 'berries', 'granola', 'chia seeds', 'honey'],
+    steps: [
+      'Spoon yogurt into a bowl or glass.',
+      'Layer with berries, granola, and chia seeds.',
+      'Add a little honey on top if desired.',
+      'Enjoy as a fast, fresh breakfast.',
+    ],
+  },
+  {
+    id: 'lentil-soup',
+    title: 'Simple Lentil Soup',
+    time: '30 min',
+    category: 'Dinner',
+    ingredients: ['lentils', 'carrots', 'celery', 'onion', 'vegetable broth'],
+    steps: [
+      'Sauté onion, celery, and carrots until softened.',
+      'Add lentils and broth, then simmer until tender.',
+      'Stir in any seasonings you like.',
+      'Serve warm with toast or a side salad.',
+    ],
+  },
+  {
+    id: 'shrimp-rice-bowl',
+    title: 'Garlic Shrimp Rice Bowl',
+    time: '20 min',
+    category: 'Dinner',
+    ingredients: ['shrimp', 'rice', 'garlic', 'broccoli', 'soy sauce'],
+    steps: [
+      'Cook the rice and steam the broccoli.',
+      'Sauté shrimp with garlic until pink and cooked through.',
+      'Add a splash of soy sauce and toss together.',
+      'Serve over rice with broccoli on top.',
+    ],
+  },
+  {
+    id: 'avocado-toast-egg',
+    title: 'Avocado Egg Toast',
+    time: '10 min',
+    category: 'Breakfast',
+    ingredients: ['whole grain bread', 'avocado', 'egg', 'lemon', 'pepper'],
+    steps: [
+      'Toast the bread until crisp.',
+      'Mash avocado with lemon and pepper.',
+      'Top with a fried or scrambled egg.',
+      'Serve immediately while warm.',
+    ],
+  },
+  {
+    id: 'chickpea-salad-wrap',
+    title: 'Chickpea Salad Wrap',
+    time: '12 min',
+    category: 'Lunch',
+    ingredients: ['chickpeas', 'wraps', 'lettuce', 'tomato', 'yogurt dressing'],
+    steps: [
+      'Mash the chickpeas with a little yogurt dressing.',
+      'Add lettuce and tomato to the wrap.',
+      'Spoon the salad into the wrap and fold.',
+      'Enjoy with fruit or a side salad.',
+    ],
+  },
+  {
+    id: 'turkey-chili',
+    title: 'Turkey Chili',
+    time: '35 min',
+    category: 'Dinner',
+    ingredients: ['ground turkey', 'beans', 'tomatoes', 'onion', 'chili spices'],
+    steps: [
+      'Cook the turkey with onion until browned.',
+      'Add tomatoes, beans, and chili spices.',
+      'Simmer until the chili thickens.',
+      'Serve with avocado, yogurt, or rice.',
+    ],
+  },
+  {
+    id: 'banana-oat-smoothie',
+    title: 'Banana Oat Smoothie',
+    time: '5 min',
+    category: 'Snack',
+    ingredients: ['banana', 'oats', 'milk', 'peanut butter', 'cinnamon'],
+    steps: [
+      'Blend all ingredients until smooth.',
+      'Adjust thickness with more milk if needed.',
+      'Pour into a glass and enjoy cold.',
+      'Use it as a quick breakfast or afternoon snack.',
+    ],
+  },
+  {
+    id: 'veggie-fried-rice',
+    title: 'Veggie Fried Rice',
+    time: '15 min',
+    category: 'Quick dinner',
+    ingredients: ['rice', 'peas', 'carrots', 'eggs', 'soy sauce'],
+    steps: [
+      'Cook the rice if not already done.',
+      'Scramble the eggs and set them aside.',
+      'Stir-fry the vegetables in a hot pan.',
+      'Add rice, eggs, and soy sauce and toss together.',
     ],
   },
 ];
@@ -330,8 +475,20 @@ function App() {
   const [diceValue, setDiceValue] = useState(1);
   const [challenge, setChallenge] = useState(() => challengePool[0]);
   const [selectedRecipe, setSelectedRecipe] = useState(recipeLibrary[0]);
-  const [favoriteRecipeId, setFavoriteRecipeId] = useState(() => localStorage.getItem('my-daily-reset-favorite-recipe') || recipeLibrary[0].id);
+  const [favoriteRecipeIds, setFavoriteRecipeIds] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('my-daily-reset-favorite-recipes') || '[]');
+      const legacy = localStorage.getItem('my-daily-reset-favorite-recipe');
+      if (Array.isArray(saved)) {
+        return legacy && !saved.includes(legacy) ? [...saved, legacy] : saved;
+      }
+      return legacy ? [legacy] : [];
+    } catch {
+      return [];
+    }
+  });
   const [recipeSearch, setRecipeSearch] = useState('');
+  const [recipeCategoryFilter, setRecipeCategoryFilter] = useState('All');
   const [history, setHistory] = useState(() => getLocalHistory());
 
   useEffect(() => {
@@ -374,25 +531,30 @@ function App() {
   }, [history]);
 
   useEffect(() => {
-    if (favoriteRecipeId) {
-      localStorage.setItem('my-daily-reset-favorite-recipe', favoriteRecipeId);
+    localStorage.setItem('my-daily-reset-favorite-recipes', JSON.stringify(favoriteRecipeIds));
+    if (favoriteRecipeIds.length > 0) {
+      localStorage.setItem('my-daily-reset-favorite-recipe', favoriteRecipeIds[0]);
     }
-  }, [favoriteRecipeId]);
+  }, [favoriteRecipeIds]);
 
   const completedHabits = useMemo(() => habitState.filter(Boolean).length, [habitState]);
   const filteredRecipes = useMemo(() => {
     const query = recipeSearch.trim().toLowerCase();
 
-    if (!query) {
-      return recipeLibrary;
-    }
+    return recipeLibrary.filter((recipe) => {
+      const matchesCategory = recipeCategoryFilter === 'All' || recipe.category === recipeCategoryFilter;
+      const matchesQuery = !query || recipe.title.toLowerCase().includes(query)
+        || recipe.category.toLowerCase().includes(query)
+        || recipe.ingredients.some((ingredient) => ingredient.toLowerCase().includes(query));
 
-    return recipeLibrary.filter((recipe) =>
-      recipe.title.toLowerCase().includes(query)
-      || recipe.category.toLowerCase().includes(query)
-      || recipe.ingredients.some((ingredient) => ingredient.toLowerCase().includes(query))
-    );
-  }, [recipeSearch]);
+      return matchesCategory && matchesQuery;
+    });
+  }, [recipeSearch, recipeCategoryFilter]);
+
+  const favoriteRecipes = useMemo(
+    () => recipeLibrary.filter((recipe) => favoriteRecipeIds.includes(recipe.id)),
+    [favoriteRecipeIds]
+  );
 
   const activeRecipe = filteredRecipes.some((recipe) => recipe.id === selectedRecipe.id)
     ? selectedRecipe
@@ -425,6 +587,14 @@ function App() {
   const handleChallengeDraw = () => {
     const randomChallenge = challengePool[Math.floor(Math.random() * challengePool.length)];
     setChallenge(randomChallenge);
+  };
+
+  const toggleFavoriteRecipe = (recipeId) => {
+    setFavoriteRecipeIds((prev) =>
+      prev.includes(recipeId)
+        ? prev.filter((id) => id !== recipeId)
+        : [recipeId, ...prev].slice(0, 8)
+    );
   };
 
   const toggleHabit = (index) => {
@@ -639,6 +809,19 @@ function App() {
                   placeholder="Search recipes, ingredients, or meals"
                 />
               </div>
+
+              <div className="recipe-filter-row">
+                {recipeCategories.map((category) => (
+                  <button
+                    key={category}
+                    className={recipeCategoryFilter === category ? 'recipe-filter active' : 'recipe-filter'}
+                    onClick={() => setRecipeCategoryFilter(category)}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+
               <div className="recipe-layout">
                 <div className="recipe-list">
                   {filteredRecipes.length === 0 ? (
@@ -651,7 +834,7 @@ function App() {
                         onClick={() => setSelectedRecipe(recipe)}
                       >
                         <span>{recipe.title}</span>
-                        <small>{recipe.time}</small>
+                        <small>{recipe.category} · {recipe.time}</small>
                       </button>
                     ))
                   )}
@@ -665,10 +848,10 @@ function App() {
                         <div className="recipe-time">{activeRecipe.time}</div>
                       </div>
                       <button
-                        className={favoriteRecipeId === activeRecipe.id ? 'favorite-btn active' : 'favorite-btn'}
-                        onClick={() => setFavoriteRecipeId(activeRecipe.id)}
+                        className={favoriteRecipeIds.includes(activeRecipe.id) ? 'favorite-btn active' : 'favorite-btn'}
+                        onClick={() => toggleFavoriteRecipe(activeRecipe.id)}
                       >
-                        {favoriteRecipeId === activeRecipe.id ? '★ Favorite' : '☆ Favorite'}
+                        {favoriteRecipeIds.includes(activeRecipe.id) ? '★ Favorite' : '☆ Favorite'}
                       </button>
                     </div>
                     <div className="recipe-section">
@@ -706,10 +889,21 @@ function App() {
                   <strong>{activities || 'Not set yet'}</strong>
                 </div>
                 <div className="profile-row">
-                  <span>Favorite recipe</span>
-                  <strong>{recipeLibrary.find((recipe) => recipe.id === favoriteRecipeId)?.title || 'No favorite yet'}</strong>
+                  <span>Favorite recipes</span>
+                  <strong>{favoriteRecipes.length > 0 ? favoriteRecipes.map((recipe) => recipe.title).join(', ') : 'No favorites yet'}</strong>
                 </div>
               </div>
+
+              {favoriteRecipes.length > 0 && (
+                <div className="favorite-list">
+                  {favoriteRecipes.map((recipe) => (
+                    <button key={recipe.id} className="favorite-list-item" onClick={() => setSelectedRecipe(recipe)}>
+                      <span>{recipe.title}</span>
+                      <small>{recipe.category}</small>
+                    </button>
+                  ))}
+                </div>
+              )}
 
               <div className="chip-group">
                 {interestOptions.map((item) => (
