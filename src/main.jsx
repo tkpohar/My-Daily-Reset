@@ -27,6 +27,7 @@ const planLibrary = {
 const moods = ['Tired', 'Neutral', 'Stressed', 'Bored', 'Motivated', 'Calm'];
 const energyLevels = ['Low', 'Medium', 'High'];
 const focusTypes = ['Rest', 'Reset', 'Focus', 'Movement', 'Fun'];
+const interestOptions = ['Wellness', 'Sports', 'Cooking', 'Outdoors', 'Creative', 'Learning', 'Family time', 'Relaxing'];
 const habitList = ['Drank water', 'Moved my body', 'Showered or refreshed', 'Did one home reset task', 'Spent time on something I enjoy'];
 const motivationPool = [
   'Small steps still move you forward.',
@@ -163,9 +164,11 @@ function getDailyMotivation() {
   return nextValue;
 }
 
-function generatePlan(energy, mood, focus) {
+function generatePlan(energy, mood, focus, profile = {}) {
   const energyKey = (energy || 'Medium').toLowerCase();
   const base = planLibrary[energyKey] || planLibrary.medium;
+  const interest = profile.interest || 'Wellness';
+  const activities = profile.activities || '';
 
   const adjusted = {
     mustDo: [...base.mustDo],
@@ -173,6 +176,36 @@ function generatePlan(energy, mood, focus) {
     selfCare: [...base.selfCare],
     fun: [...base.fun],
   };
+
+  if (interest === 'Sports') {
+    const sportText = activities ? activities.trim() : 'your favorite sport';
+    adjusted.mustDo = [`Do a 10-minute ${sportText} session or movement reset.`, 'Lay out your gear or shoes for later.', 'Take a quick stretch after your main task.'];
+    adjusted.fun = ['Play a short workout or skill challenge.', 'Take a small break to enjoy your favorite sports moment.', 'Give yourself a light reward after the activity.'];
+  }
+
+  if (interest === 'Cooking') {
+    const recipeText = activities ? activities.trim() : 'one simple recipe';
+    adjusted.mustDo = [`Plan ${recipeText} for today or prep ingredients.`, 'Clean one kitchen surface before or after eating.', 'Make one easy, nourishing meal.'];
+    adjusted.easy = ['Wash one pan or prep one ingredient.', 'Set out a healthy snack or drink.', 'Do a quick kitchen reset.'];
+  }
+
+  if (interest === 'Outdoors') {
+    const outsideText = activities ? activities.trim() : 'a short walk';
+    adjusted.mustDo = [`Step outside for 10 minutes and do ${outsideText}.`, 'Open the curtains and let in more light.', 'Take a brief reset near fresh air.'];
+    adjusted.fun = ['Enjoy one outdoor moment that feels easy and calming.', 'Take a gentle walk or sit outside for a few minutes.', 'Make your outdoor time feel like a reward.'];
+  }
+
+  if (interest === 'Creative') {
+    const creativeText = activities ? activities.trim() : 'a creative hobby';
+    adjusted.mustDo = [`Give yourself 15 minutes for ${creativeText}.`, 'Start one small creative task and keep it low-pressure.', 'Make room for something playful today.'];
+    adjusted.fun = ['Do a short hobby break that feels energizing.', 'Create something small and enjoyable.', 'Take a tiny reward moment after you finish.'];
+  }
+
+  if (interest === 'Learning') {
+    const learningText = activities ? activities.trim() : 'one small learning goal';
+    adjusted.mustDo = [`Spend a little time on ${learningText}.`, 'Focus on one skill or topic that feels useful.', 'Keep the effort small and sustainable.'];
+    adjusted.fun = ['Read, watch, or explore something that sparks curiosity.', 'Give yourself a short brain break.', 'Celebrate progress even if it is tiny.'];
+  }
 
   if (focus === 'Rest') {
     adjusted.selfCare = ['Take a real rest break without guilt.', 'Drink water and stretch for five minutes.', 'Set one calming task for the next hour.'];
@@ -201,7 +234,9 @@ function App() {
   const [energy, setEnergy] = useState('Medium');
   const [mood, setMood] = useState('Neutral');
   const [focus, setFocus] = useState('Reset');
-  const [plan, setPlan] = useState(() => generatePlan('Medium', 'Neutral', 'Reset'));
+  const [personalInterest, setPersonalInterest] = useState('Wellness');
+  const [activities, setActivities] = useState('');
+  const [plan, setPlan] = useState(() => generatePlan('Medium', 'Neutral', 'Reset', { interest: 'Wellness', activities: '' }));
   const [tab, setTab] = useState('today');
   const [reflection, setReflection] = useState('');
   const [habitState, setHabitState] = useState(() => habitList.map(() => false));
@@ -227,6 +262,8 @@ function App() {
       if (parsed.energy) setEnergy(parsed.energy);
       if (parsed.mood) setMood(parsed.mood);
       if (parsed.focus) setFocus(parsed.focus);
+      if (parsed.personalInterest) setPersonalInterest(parsed.personalInterest);
+      if (parsed.activities) setActivities(parsed.activities);
       if (parsed.habitState) setHabitState(parsed.habitState);
       if (parsed.reflection) setReflection(parsed.reflection);
       if (parsed.plan) setPlan(parsed.plan);
@@ -234,9 +271,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const state = { energy, mood, focus, habitState, reflection, plan };
+    const state = { energy, mood, focus, personalInterest, activities, habitState, reflection, plan };
     localStorage.setItem('my-daily-reset-state', JSON.stringify(state));
-  }, [energy, mood, focus, habitState, reflection, plan]);
+  }, [energy, mood, focus, personalInterest, activities, habitState, reflection, plan]);
 
   useEffect(() => {
     localStorage.setItem('my-daily-reset-history', JSON.stringify(history));
@@ -245,7 +282,7 @@ function App() {
   const completedHabits = useMemo(() => habitState.filter(Boolean).length, [habitState]);
 
   const handleGenerate = () => {
-    const generatedPlan = generatePlan(energy, mood, focus);
+    const generatedPlan = generatePlan(energy, mood, focus, { interest: personalInterest, activities });
     setPlan(generatedPlan);
 
     const entry = {
@@ -256,6 +293,8 @@ function App() {
       reflection,
       habits: habitState,
       plan: generatedPlan,
+      interest: personalInterest,
+      activities,
     };
 
     const updatedHistory = [entry, ...history].slice(0, 12);
@@ -338,6 +377,25 @@ function App() {
                 <option key={item} value={item}>{item}</option>
               ))}
             </select>
+          </label>
+
+          <label>
+            What do you enjoy most?
+            <select value={personalInterest} onChange={(e) => setPersonalInterest(e.target.value)}>
+              {interestOptions.map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
+            </select>
+          </label>
+
+          <label>
+            Favorite activities or hobbies
+            <input
+              type="text"
+              value={activities}
+              onChange={(e) => setActivities(e.target.value)}
+              placeholder="e.g. golf, fishing, cooking, yoga"
+            />
           </label>
 
           <button className="primary-btn" onClick={handleGenerate}>Generate my reset plan</button>

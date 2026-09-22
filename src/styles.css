@@ -202,6 +202,7 @@ button, select, textarea {
 }
 
 .side-panel select,
+.side-panel input,
 .main-panel textarea {
   width: 100%;
   margin-top: 8px;
