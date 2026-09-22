@@ -27,7 +27,7 @@ const planLibrary = {
 const moods = ['Tired', 'Neutral', 'Stressed', 'Bored', 'Motivated', 'Calm'];
 const energyLevels = ['Low', 'Medium', 'High'];
 const focusTypes = ['Rest', 'Reset', 'Focus', 'Movement', 'Fun'];
-const interestOptions = ['Wellness', 'Sports', 'Cooking', 'Outdoors', 'Creative', 'Learning', 'Family time', 'Relaxing'];
+const interestOptions = ['Wellness', 'Sports', 'Cooking', 'Outdoors', 'Creative', 'Learning', 'Family time', 'Relaxing', 'Gardening', 'Reading', 'Travel', 'Music', 'Skincare', 'Home reset', 'Mindfulness', 'Community', 'Personal care'];
 const habitList = ['Drank water', 'Moved my body', 'Showered or refreshed', 'Did one home reset task', 'Spent time on something I enjoy'];
 const motivationPool = [
   'Small steps still move you forward.',
@@ -436,6 +436,69 @@ function generatePlan(energy, mood, focus, profile = {}) {
     const learningText = activities ? activities.trim() : 'one small learning goal';
     adjusted.mustDo = [`Spend a little time on ${learningText}.`, 'Focus on one skill or topic that feels useful.', 'Keep the effort small and sustainable.'];
     adjusted.fun = ['Read, watch, or explore something that sparks curiosity.', 'Give yourself a short brain break.', 'Celebrate progress even if it is tiny.'];
+  }
+
+  if (interest === 'Gardening') {
+    const gardenText = activities ? activities.trim() : 'a plant or garden task';
+    adjusted.mustDo = [`Care for ${gardenText} for a few minutes.`, 'Water one plant or tidy a small space.', 'Take a moment to notice the outdoor environment around you.'];
+    adjusted.easy = ['Trim a few leaves or remove dead stems.', 'Wipe down a pot or small gardening tool.', 'Step outside for fresh air and a short reset.'];
+    adjusted.fun = ['Enjoy a calm outdoor break with your plants.', 'Take a mindful minute to notice what is growing.', 'Use this time to slow down and reconnect with nature.'];
+  }
+
+  if (interest === 'Reading') {
+    const readingText = activities ? activities.trim() : 'a book or article';
+    adjusted.mustDo = [`Spend 10 minutes with ${readingText}.`, 'Read something uplifting or useful for your day.', 'Create a quiet moment for focus and calm.'];
+    adjusted.easy = ['Make tea or water before your reading break.', 'Read one page before checking messages.', 'Take a short pause away from screens.'];
+    adjusted.fun = ['Enjoy one chapter or a short article.', 'Read something comforting and easy.', 'Reward yourself with a quiet, screen-free moment.'];
+  }
+
+  if (interest === 'Travel') {
+    const travelText = activities ? activities.trim() : 'a local outing';
+    adjusted.mustDo = [`Plan a simple ${travelText} or little adventure today.`, 'Pack or prepare what you need for a short outing.', 'Take one small step toward something new or refreshing.'];
+    adjusted.easy = ['Take a walk in a new area.', 'Open the curtains and imagine a fresh place to visit.', 'Set up your bag or essentials for later.'];
+    adjusted.fun = ['Give yourself a small adventure moment.', 'Enjoy a brief outing or change of scenery.', 'Take a photo or note something new you noticed.'];
+  }
+
+  if (interest === 'Music') {
+    const musicText = activities ? activities.trim() : 'one playlist or song';
+    adjusted.mustDo = [`Play ${musicText} to reset your energy.`, 'Take a brief movement break while music plays.', 'Choose one song that feels uplifting.'];
+    adjusted.easy = ['Dance for two minutes or stretch to a beat.', 'Put on a calm track while you tidy one space.', 'Take a short break to enjoy the sound around you.'];
+    adjusted.fun = ['Create a mini mood boost with your favorite sound.', 'Let music make a boring task feel lighter.', 'Give yourself a small reward while listening.'];
+  }
+
+  if (interest === 'Skincare') {
+    const skincareText = activities ? activities.trim() : 'your skin reset routine';
+    adjusted.mustDo = [`Do a gentle ${skincareText} or refresh ritual.`, 'Wash your face or clean up for the day.', 'Take a few minutes for a calming personal care routine.'];
+    adjusted.easy = ['Apply moisturizer or facial mist.', 'Wash your hands and clean up before lunch.', 'Take a quick reset and drink water.'];
+    adjusted.fun = ['Give yourself a soothing self-care moment.', 'Enjoy a calming ritual without rushing.', 'Treat this like a slow, nurturing reward.'];
+  }
+
+  if (interest === 'Home reset') {
+    const homeText = activities ? activities.trim() : 'one room or surface';
+    adjusted.mustDo = [`Reset ${homeText} and make it feel easier to use.`, 'Clear one clutter zone or surface.', 'Set up the next part of your day with less friction.'];
+    adjusted.easy = ['Wash one dish or tidy one basket.', 'Fold a blanket or arrange a corner.', 'Open windows or light a candle for a fresh feel.'];
+    adjusted.fun = ['Give your space a quick breathing room.', 'Turn a small reset into a satisfying win.', 'Enjoy the comfort of a calmer home.'];
+  }
+
+  if (interest === 'Mindfulness') {
+    const mindfulText = activities ? activities.trim() : 'a short breathing or reflection break';
+    adjusted.mustDo = [`Take 5 minutes for ${mindfulText}.`, 'Pause and notice your breathing.', 'Let your day feel a little simpler and more grounded.'];
+    adjusted.easy = ['Sit quietly and notice one calming thing.', 'Stretch gently and breathe deeply.', 'Take a no-phone break for a few minutes.'];
+    adjusted.fun = ['Enjoy a soft, restful pause.', 'Give yourself a peaceful reset without pressure.', 'Celebrate a moment of calm.'];
+  }
+
+  if (interest === 'Community') {
+    const communityText = activities ? activities.trim() : 'one supportive connection';
+    adjusted.mustDo = [`Reach out to someone or do ${communityText}.`, 'Do one kind act or helpful gesture.', 'Create a small moment of connection today.'];
+    adjusted.easy = ['Send a message to someone you appreciate.', 'Say hello to a neighbor or coworker.', 'Take a short walk and enjoy the world around you.'];
+    adjusted.fun = ['Make one small connection that feels good.', 'Choose a friendly, uplifting interaction.', 'Give yourself a warm and human moment.'];
+  }
+
+  if (interest === 'Personal care') {
+    const personalText = activities ? activities.trim() : 'your daily care ritual';
+    adjusted.mustDo = [`Give yourself time for ${personalText}.`, 'Refresh your body and space for the next phase of the day.', 'Take care of one small wellbeing task without rushing.'];
+    adjusted.easy = ['Wash your face or shower.', 'Drink water and stretch for a minute.', 'Set out clothes or a simple daily routine.'];
+    adjusted.fun = ['Make self-care feel enjoyable, not strict.', 'Treat yourself to a soothing, unhurried moment.', 'Enjoy the comfort of taking care of yourself.'];
   }
 
   if (focus === 'Rest') {
