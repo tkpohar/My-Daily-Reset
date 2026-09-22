@@ -55,6 +55,57 @@ const challengePool = [
   'Listen to one song that lifts your mood.',
 ];
 
+const recipeLibrary = [
+  {
+    id: 'lemon-garlic-chicken-bowl',
+    title: 'Lemon Garlic Chicken Bowl',
+    time: '20 min',
+    ingredients: ['2 chicken breasts', '1 lemon', '2 cups cooked rice', 'spinach', 'garlic'],
+    steps: [
+      'Cook the rice and set it aside.',
+      'Season the chicken and sear it with garlic.',
+      'Add lemon juice and cook until the chicken is done.',
+      'Serve over rice with spinach and extra lemon on top.',
+    ],
+  },
+  {
+    id: 'veggie-pasta',
+    title: 'Quick Veggie Pasta',
+    time: '15 min',
+    ingredients: ['pasta', 'zucchini', 'tomatoes', 'olive oil', 'parmesan'],
+    steps: [
+      'Boil the pasta until tender.',
+      'Sauté the vegetables in olive oil.',
+      'Add the pasta to the pan and toss everything together.',
+      'Finish with parmesan and a little pepper.',
+    ],
+  },
+  {
+    id: 'protein-breakfast-bowl',
+    title: 'Protein Breakfast Bowl',
+    time: '10 min',
+    ingredients: ['eggs', 'avocado', 'spinach', 'toast', 'hot sauce'],
+    steps: [
+      'Scramble or fry the eggs.',
+      'Warm the spinach gently in a pan.',
+      'Top the toast with eggs, avocado, and spinach.',
+      'Add hot sauce if you want a little extra flavor.',
+    ],
+  },
+  {
+    id: 'salmon-rice-salad',
+    title: 'Salmon Rice Salad',
+    time: '18 min',
+    ingredients: ['salmon', 'rice', 'cucumber', 'greens', 'lemon dressing'],
+    steps: [
+      'Cook the rice and let it cool slightly.',
+      'Bake or pan-cook the salmon until flaky.',
+      'Mix the rice with cucumber and greens.',
+      'Top with salmon and lemon dressing before serving.',
+    ],
+  },
+];
+
 const getSupabaseClient = () => {
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
   const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -248,6 +299,7 @@ function App() {
   const [motivation, setMotivation] = useState(() => getDailyMotivation());
   const [diceValue, setDiceValue] = useState(1);
   const [challenge, setChallenge] = useState(() => challengePool[0]);
+  const [selectedRecipe, setSelectedRecipe] = useState(recipeLibrary[0]);
   const [history, setHistory] = useState(() => getLocalHistory());
 
   useEffect(() => {
@@ -418,7 +470,7 @@ function App() {
 
         <main className="main-panel">
           <div className="tabs">
-            {['today', 'habits', 'reflection', 'wins', 'games', 'history'].map((name) => (
+            {['today', 'habits', 'reflection', 'wins', 'recipes', 'games', 'history'].map((name) => (
               <button
                 key={name}
                 className={tab === name ? 'tab active' : 'tab'}
@@ -518,6 +570,47 @@ function App() {
                 <li>Handled one hard task</li>
                 <li>Created a calmer routine</li>
               </ul>
+            </div>
+          )}
+
+          {tab === 'recipes' && (
+            <div className="content-card">
+              <h3>Easy recipes</h3>
+              <div className="recipe-layout">
+                <div className="recipe-list">
+                  {recipeLibrary.map((recipe) => (
+                    <button
+                      key={recipe.id}
+                      className={selectedRecipe.id === recipe.id ? 'recipe-option active' : 'recipe-option'}
+                      onClick={() => setSelectedRecipe(recipe)}
+                    >
+                      <span>{recipe.title}</span>
+                      <small>{recipe.time}</small>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="recipe-detail">
+                  <h4>{selectedRecipe.title}</h4>
+                  <div className="recipe-time">{selectedRecipe.time}</div>
+                  <div className="recipe-section">
+                    <h5>Ingredients</h5>
+                    <ul>
+                      {selectedRecipe.ingredients.map((ingredient) => (
+                        <li key={ingredient}>{ingredient}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="recipe-section">
+                    <h5>Steps</h5>
+                    <ol>
+                      {selectedRecipe.steps.map((step) => (
+                        <li key={step}>{step}</li>
+                      ))}
+                    </ol>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 

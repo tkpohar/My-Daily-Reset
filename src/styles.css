@@ -397,6 +397,83 @@ button, select, textarea {
   color: #394a66;
 }
 
+.recipe-layout {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 1rem;
+}
+
+.recipe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recipe-option {
+  text-align: left;
+  background: rgba(255,255,255,0.58);
+  border: 1px solid rgba(120, 131, 170, 0.12);
+  border-radius: 12px;
+  padding: 0.8rem 0.9rem;
+  color: #2e3b57;
+  cursor: pointer;
+}
+
+.recipe-option.active {
+  background: linear-gradient(135deg, rgba(110, 200, 184, 0.18), rgba(255, 122, 162, 0.12));
+  border-color: rgba(110, 200, 184, 0.38);
+}
+
+.recipe-option span,
+.recipe-option small {
+  display: block;
+}
+
+.recipe-option small {
+  margin-top: 0.2rem;
+  color: #5d6a84;
+}
+
+.recipe-detail {
+  background: rgba(255,255,255,0.54);
+  border: 1px solid rgba(120, 131, 170, 0.12);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.recipe-detail h4 {
+  margin: 0 0 0.35rem;
+  font-size: 1.3rem;
+}
+
+.recipe-time {
+  display: inline-block;
+  background: rgba(255, 122, 162, 0.1);
+  color: #8f4164;
+  border-radius: 999px;
+  padding: 0.38rem 0.7rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.recipe-section h5 {
+  margin: 0 0 0.5rem;
+  color: #33415e;
+}
+
+.recipe-section ul,
+.recipe-section ol {
+  margin: 0 0 1rem;
+  padding-left: 1.2rem;
+  color: #374660;
+}
+
+.recipe-section li {
+  margin-bottom: 0.45rem;
+}
+
 .games-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
