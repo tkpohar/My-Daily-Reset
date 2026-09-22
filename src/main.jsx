@@ -60,6 +60,7 @@ const recipeLibrary = [
     id: 'lemon-garlic-chicken-bowl',
     title: 'Lemon Garlic Chicken Bowl',
     time: '20 min',
+    category: 'Protein',
     ingredients: ['2 chicken breasts', '1 lemon', '2 cups cooked rice', 'spinach', 'garlic'],
     steps: [
       'Cook the rice and set it aside.',
@@ -72,6 +73,7 @@ const recipeLibrary = [
     id: 'veggie-pasta',
     title: 'Quick Veggie Pasta',
     time: '15 min',
+    category: 'Easy dinner',
     ingredients: ['pasta', 'zucchini', 'tomatoes', 'olive oil', 'parmesan'],
     steps: [
       'Boil the pasta until tender.',
@@ -84,6 +86,7 @@ const recipeLibrary = [
     id: 'protein-breakfast-bowl',
     title: 'Protein Breakfast Bowl',
     time: '10 min',
+    category: 'Breakfast',
     ingredients: ['eggs', 'avocado', 'spinach', 'toast', 'hot sauce'],
     steps: [
       'Scramble or fry the eggs.',
@@ -96,12 +99,39 @@ const recipeLibrary = [
     id: 'salmon-rice-salad',
     title: 'Salmon Rice Salad',
     time: '18 min',
+    category: 'Lunch',
     ingredients: ['salmon', 'rice', 'cucumber', 'greens', 'lemon dressing'],
     steps: [
       'Cook the rice and let it cool slightly.',
       'Bake or pan-cook the salmon until flaky.',
       'Mix the rice with cucumber and greens.',
       'Top with salmon and lemon dressing before serving.',
+    ],
+  },
+  {
+    id: 'cinnamon-oatmeal',
+    title: 'Cinnamon Oatmeal Bowl',
+    time: '8 min',
+    category: 'Breakfast',
+    ingredients: ['oats', 'milk', 'cinnamon', 'banana', 'nuts'],
+    steps: [
+      'Cook the oats with milk until creamy.',
+      'Stir in cinnamon and a little sweetness if desired.',
+      'Top with banana slices and nuts.',
+      'Serve warm and enjoy slowly.',
+    ],
+  },
+  {
+    id: 'turkey-wraps',
+    title: 'Turkey Wraps',
+    time: '12 min',
+    category: 'Lunch',
+    ingredients: ['whole wheat wraps', 'turkey slices', 'lettuce', 'tomato', 'avocado'],
+    steps: [
+      'Lay out the wraps and add lettuce and tomato.',
+      'Place turkey slices and avocado on top.',
+      'Roll tightly and slice in half.',
+      'Enjoy with fruit or a side salad.',
     ],
   },
 ];
@@ -300,6 +330,8 @@ function App() {
   const [diceValue, setDiceValue] = useState(1);
   const [challenge, setChallenge] = useState(() => challengePool[0]);
   const [selectedRecipe, setSelectedRecipe] = useState(recipeLibrary[0]);
+  const [favoriteRecipeId, setFavoriteRecipeId] = useState(() => localStorage.getItem('my-daily-reset-favorite-recipe') || recipeLibrary[0].id);
+  const [recipeSearch, setRecipeSearch] = useState('');
   const [history, setHistory] = useState(() => getLocalHistory());
 
   useEffect(() => {
@@ -342,6 +374,9 @@ function App() {
   }, [history]);
 
   const completedHabits = useMemo(() => habitState.filter(Boolean).length, [habitState]);
+  const activeRecipe = filteredRecipes.some((recipe) => recipe.id === selectedRecipe.id)
+    ? selectedRecipe
+    : (filteredRecipes[0] || recipeLibrary[0]);
 
   const handleGenerate = () => {
     const generatedPlan = generatePlan(energy, mood, focus, { interest: personalInterest, activities });
@@ -470,7 +505,7 @@ function App() {
 
         <main className="main-panel">
           <div className="tabs">
-            {['today', 'habits', 'reflection', 'wins', 'recipes', 'games', 'history'].map((name) => (
+            {['today', 'habits', 'reflection', 'wins', 'recipes', 'profile', 'games', 'history'].map((name) => (
               <button
                 key={name}
                 className={tab === name ? 'tab active' : 'tab'}
@@ -576,40 +611,96 @@ function App() {
           {tab === 'recipes' && (
             <div className="content-card">
               <h3>Easy recipes</h3>
+              <div className="recipe-search-wrap">
+                <input
+                  type="text"
+                  value={recipeSearch}
+                  onChange={(e) => setRecipeSearch(e.target.value)}
+                  placeholder="Search recipes, ingredients, or meals"
+                />
+              </div>
               <div className="recipe-layout">
                 <div className="recipe-list">
-                  {recipeLibrary.map((recipe) => (
-                    <button
-                      key={recipe.id}
-                      className={selectedRecipe.id === recipe.id ? 'recipe-option active' : 'recipe-option'}
-                      onClick={() => setSelectedRecipe(recipe)}
-                    >
-                      <span>{recipe.title}</span>
-                      <small>{recipe.time}</small>
-                    </button>
-                  ))}
+                  {filteredRecipes.length === 0 ? (
+                    <div className="empty-state">No recipes match your search.</div>
+                  ) : (
+                    filteredRecipes.map((recipe) => (
+                      <button
+                        key={recipe.id}
+                        className={activeRecipe.id === recipe.id ? 'recipe-option active' : 'recipe-option'}
+                        onClick={() => setSelectedRecipe(recipe)}
+                      >
+                        <span>{recipe.title}</span>
+                        <small>{recipe.time}</small>
+                      </button>
+                    ))
+                  )}
                 </div>
 
-                <div className="recipe-detail">
-                  <h4>{selectedRecipe.title}</h4>
-                  <div className="recipe-time">{selectedRecipe.time}</div>
-                  <div className="recipe-section">
-                    <h5>Ingredients</h5>
-                    <ul>
-                      {selectedRecipe.ingredients.map((ingredient) => (
-                        <li key={ingredient}>{ingredient}</li>
-                      ))}
-                    </ul>
+                {activeRecipe && (
+                  <div className="recipe-detail">
+                    <div className="recipe-header-row">
+                      <div>
+                        <h4>{activeRecipe.title}</h4>
+                        <div className="recipe-time">{activeRecipe.time}</div>
+                      </div>
+                      <button
+                        className={favoriteRecipeId === activeRecipe.id ? 'favorite-btn active' : 'favorite-btn'}
+                        onClick={() => setFavoriteRecipeId(activeRecipe.id)}
+                      >
+                        {favoriteRecipeId === activeRecipe.id ? '★ Favorite' : '☆ Favorite'}
+                      </button>
+                    </div>
+                    <div className="recipe-section">
+                      <h5>Ingredients</h5>
+                      <ul>
+                        {activeRecipe.ingredients.map((ingredient) => (
+                          <li key={ingredient}>{ingredient}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="recipe-section">
+                      <h5>Steps</h5>
+                      <ol>
+                        {activeRecipe.steps.map((step) => (
+                          <li key={step}>{step}</li>
+                        ))}
+                      </ol>
+                    </div>
                   </div>
-                  <div className="recipe-section">
-                    <h5>Steps</h5>
-                    <ol>
-                      {selectedRecipe.steps.map((step) => (
-                        <li key={step}>{step}</li>
-                      ))}
-                    </ol>
-                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {tab === 'profile' && (
+            <div className="content-card">
+              <h3>Profile preferences</h3>
+              <div className="profile-summary-box">
+                <div className="profile-row">
+                  <span>Interest</span>
+                  <strong>{personalInterest}</strong>
                 </div>
+                <div className="profile-row">
+                  <span>Activities</span>
+                  <strong>{activities || 'Not set yet'}</strong>
+                </div>
+                <div className="profile-row">
+                  <span>Favorite recipe</span>
+                  <strong>{recipeLibrary.find((recipe) => recipe.id === favoriteRecipeId)?.title || 'No favorite yet'}</strong>
+                </div>
+              </div>
+
+              <div className="chip-group">
+                {interestOptions.map((item) => (
+                  <button
+                    key={item}
+                    className={personalInterest === item ? 'interest-chip active' : 'interest-chip'}
+                    onClick={() => setPersonalInterest(item)}
+                  >
+                    {item}
+                  </button>
+                ))}
               </div>
             </div>
           )}

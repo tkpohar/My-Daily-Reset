@@ -397,6 +397,19 @@ button, select, textarea {
   color: #394a66;
 }
 
+.recipe-search-wrap {
+  margin-bottom: 1rem;
+}
+
+.recipe-search-wrap input {
+  width: 100%;
+  border: 1px solid rgba(99, 118, 164, 0.2);
+  background: rgba(255, 255, 255, 0.76);
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
+  color: #212a3b;
+}
+
 .recipe-layout {
   display: grid;
   grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
@@ -433,6 +446,29 @@ button, select, textarea {
 .recipe-option small {
   margin-top: 0.2rem;
   color: #5d6a84;
+}
+
+.recipe-header-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.favorite-btn {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(120, 131, 170, 0.12);
+  border-radius: 999px;
+  padding: 0.5rem 0.75rem;
+  color: #46556d;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.favorite-btn.active {
+  background: rgba(255, 122, 162, 0.12);
+  color: #8f4164;
+  border-color: rgba(255, 122, 162, 0.2);
 }
 
 .recipe-detail {
@@ -472,6 +508,61 @@ button, select, textarea {
 
 .recipe-section li {
   margin-bottom: 0.45rem;
+}
+
+.empty-state {
+  color: #5a6984;
+  background: rgba(255,255,255,0.5);
+  border: 1px dashed rgba(120, 131, 170, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.profile-summary-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin: 1rem 0;
+  background: rgba(255,255,255,0.54);
+  border: 1px solid rgba(120, 131, 170, 0.12);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: #3f4c66;
+}
+
+.profile-row span {
+  color: #596881;
+}
+
+.profile-row strong {
+  text-align: right;
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.interest-chip {
+  background: rgba(255,255,255,0.65);
+  border: 1px solid rgba(120, 131, 170, 0.15);
+  border-radius: 999px;
+  padding: 0.55rem 0.85rem;
+  color: #374660;
+  cursor: pointer;
+}
+
+.interest-chip.active {
+  background: linear-gradient(135deg, rgba(110, 200, 184, 0.2), rgba(255, 122, 162, 0.12));
+  border-color: rgba(110, 200, 184, 0.38);
 }
 
 .games-grid {
