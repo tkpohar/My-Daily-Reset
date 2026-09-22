@@ -97,6 +97,10 @@ button, select, textarea {
 .hero-panel {
   max-width: 1180px;
   margin: 0 auto 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 28px;
   background: rgba(255, 255, 255, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0 18px 40px rgba(90, 106, 142, 0.08);
@@ -128,6 +132,37 @@ button, select, textarea {
   max-width: 700px;
   color: #535d75;
   font-size: 1.02rem;
+}
+
+.motivation-card {
+  min-width: 230px;
+  background: linear-gradient(135deg, rgba(255, 122, 162, 0.12), rgba(110, 200, 184, 0.12));
+  border: 1px solid rgba(255, 122, 162, 0.14);
+  border-radius: 18px;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 12px 24px rgba(100, 110, 160, 0.08);
+}
+
+.motivation-label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-weight: 800;
+  color: #5e6b82;
+}
+
+.motivation-card strong {
+  display: block;
+  margin: 0.55rem 0 0.35rem;
+  font-size: 1.4rem;
+  color: #1d2433;
+}
+
+.motivation-card p {
+  margin: 0;
+  color: #495873;
+  font-size: 0.96rem;
 }
 
 .content-grid {
@@ -178,22 +213,32 @@ button, select, textarea {
   outline: none;
 }
 
-.primary-btn {
+.primary-btn,
+.secondary-btn {
   width: 100%;
   border: none;
   border-radius: 14px;
-  background: linear-gradient(135deg, #ff7aa2, #ffb0c7);
-  color: white;
   font-weight: 700;
   padding: 0.8rem 1rem;
   cursor: pointer;
-  box-shadow: 0 12px 24px rgba(255, 122, 162, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.primary-btn:hover {
+.primary-btn {
+  background: linear-gradient(135deg, #ff7aa2, #ffb0c7);
+  color: white;
+  box-shadow: 0 12px 24px rgba(255, 122, 162, 0.2);
+}
+
+.secondary-btn {
+  background: linear-gradient(135deg, #6ec8b8, #9ad9cb);
+  color: white;
+  box-shadow: 0 12px 24px rgba(110, 200, 184, 0.18);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 16px 26px rgba(255, 122, 162, 0.24);
 }
 
 .main-panel {
@@ -290,6 +335,39 @@ button, select, textarea {
   border: 1px solid rgba(120, 131, 170, 0.12);
   border-radius: 18px;
   padding: 1rem 1rem 1.2rem;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.game-card {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dice-face {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 1rem;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #f8d98d, #ffd7a4);
+  color: #2d3550;
+  font-size: 2.2rem;
+  font-weight: 800;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.45);
+}
+
+.challenge-text {
+  margin: 0 0 1rem;
+  line-height: 1.6;
+  color: #374660;
 }
 
 .content-card h3 {

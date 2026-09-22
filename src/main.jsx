@@ -27,6 +27,50 @@ const moods = ['Tired', 'Neutral', 'Stressed', 'Bored', 'Motivated', 'Calm'];
 const energyLevels = ['Low', 'Medium', 'High'];
 const focusTypes = ['Rest', 'Reset', 'Focus', 'Movement', 'Fun'];
 const habitList = ['Drank water', 'Moved my body', 'Showered or refreshed', 'Did one home reset task', 'Spent time on something I enjoy'];
+const motivationPool = [
+  'Small steps still move you forward.',
+  'Your pace is valid, even when it is quiet.',
+  'You do not need a perfect day to have a meaningful one.',
+  'A gentle routine can still be powerful.',
+  'You are allowed to start small and still succeed.',
+  'Progress is often a calm reset, not a dramatic win.',
+  'Today is not about doing everything; it is about doing what matters.',
+  'You are building a life that feels steadier one small act at a time.',
+  'Even a tiny win deserves celebration.',
+  'Let your energy guide you, not your guilt.',
+  'Rest is not falling behind; it is part of the process.',
+  'You can recover, rebuild, and begin again today.',
+];
+
+const challengePool = [
+  'Drink water and stretch for 1 minute.',
+  'Take a 5-minute walk around your room or outside.',
+  'Tidy one small surface and leave it clean.',
+  'Text one person you feel good talking to.',
+  'Make your bed and open the curtains.',
+  'Take a screen-free break and breathe deeply.',
+  'Do one thing that makes your space feel nicer.',
+  'Listen to one song that lifts your mood.',
+];
+
+function getDailyMotivation() {
+  const todayKey = Math.floor(Date.now() / 86400000);
+  const saved = JSON.parse(localStorage.getItem('my-daily-reset-motivation') || 'null');
+
+  if (saved && saved.dayKey === todayKey) {
+    return saved;
+  }
+
+  const quote = motivationPool[todayKey % motivationPool.length];
+  const nextValue = {
+    dayKey: todayKey,
+    code: `MOT-${String(todayKey % 1000).padStart(3, '0')}`,
+    quote,
+  };
+
+  localStorage.setItem('my-daily-reset-motivation', JSON.stringify(nextValue));
+  return nextValue;
+}
 
 function generatePlan(energy, mood, focus) {
   const energyKey = (energy || 'Medium').toLowerCase();
@@ -70,6 +114,9 @@ function App() {
   const [tab, setTab] = useState('today');
   const [reflection, setReflection] = useState('');
   const [habitState, setHabitState] = useState(() => habitList.map(() => false));
+  const [motivation, setMotivation] = useState(() => getDailyMotivation());
+  const [diceValue, setDiceValue] = useState(1);
+  const [challenge, setChallenge] = useState(() => challengePool[0]);
 
   useEffect(() => {
     const saved = localStorage.getItem('my-daily-reset-state');
@@ -93,6 +140,15 @@ function App() {
 
   const handleGenerate = () => {
     setPlan(generatePlan(energy, mood, focus));
+  };
+
+  const handleDiceRoll = () => {
+    setDiceValue(Math.floor(Math.random() * 6) + 1);
+  };
+
+  const handleChallengeDraw = () => {
+    const randomChallenge = challengePool[Math.floor(Math.random() * challengePool.length)];
+    setChallenge(randomChallenge);
   };
 
   const toggleHabit = (index) => {
@@ -123,6 +179,12 @@ function App() {
           <p>
             Pick how you feel, choose what you need, and let this gentle plan help you move forward without pressure.
           </p>
+        </div>
+
+        <div className="motivation-card">
+          <span className="motivation-label">Daily motivation code</span>
+          <strong>{motivation.code}</strong>
+          <p>“{motivation.quote}”</p>
         </div>
       </section>
 
@@ -162,7 +224,7 @@ function App() {
 
         <main className="main-panel">
           <div className="tabs">
-            {['today', 'habits', 'reflection', 'wins'].map((name) => (
+            {['today', 'habits', 'reflection', 'wins', 'games'].map((name) => (
               <button
                 key={name}
                 className={tab === name ? 'tab active' : 'tab'}
@@ -262,6 +324,22 @@ function App() {
                 <li>Handled one hard task</li>
                 <li>Created a calmer routine</li>
               </ul>
+            </div>
+          )}
+
+          {tab === 'games' && (
+            <div className="games-grid">
+              <div className="content-card game-card">
+                <h3>Lucky Dice</h3>
+                <div className="dice-face">{diceValue}</div>
+                <button className="secondary-btn" onClick={handleDiceRoll}>Roll the dice</button>
+              </div>
+
+              <div className="content-card game-card">
+                <h3>Mini challenge</h3>
+                <p className="challenge-text">{challenge}</p>
+                <button className="secondary-btn" onClick={handleChallengeDraw}>New challenge</button>
+              </div>
             </div>
           )}
         </main>
